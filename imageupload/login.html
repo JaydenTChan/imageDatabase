@@ -24,21 +24,23 @@
   <div class="card">
     <h1 class="title">Login</h1>
     <!--change action="Change this" to jsp that check user/pass-->
-    <form name="LoginForm" action="home.html" method="post">
+    
+    <form name="LoginForm" action="php/authenticate.php" method="post">
       <div class="input-container">
-        <input type="text" maxlength="24" id="Username" required="required"/>
+        <input type="text" maxlength="24" id="Username" name="Username" required="required"/>
         <label for="Username">Username</label>
         <div class="bar"></div>
       </div>
       <div class="input-container">
-        <input type="password" maxlength="24" id="Password" required="required"/>
+        <input type="password" maxlength="24" id="Password" name="Password" required="required"/>
         <label for="Password">Password</label>
         <div class="bar"></div>
       </div>
       <div class="button-container">
-        <button><span>Login</span></button>
+        <button type="submit" id="Submit" name="Submit"><span>Login</span></button>
       </div>
     </form>
+    
   </div>
   
   <div class="card alt">
@@ -46,14 +48,14 @@
     <h1 class="title">Register
       <div class="close"></div>
     </h1>
-    <form name="RegisterForm" action="home.html" method="post">
+    <form name="RegisterForm" action="php/register.php" method="post">
       <div class="input-container">
-        <input type="text" maxlength="24" id="Username" required="required"/>
+        <input type="text" maxlength="24" id="Username" name="Username" required="required"/>
         <label for="Username">Username</label>
         <div class="bar"></div>
       </div>
       <div class="input-container">
-        <input type="password" maxlength="24" id="Password" required="required"/>
+        <input type="password" maxlength="24" id="Password" name="Password" required="required"/>
         <label for="Password">Password</label>
         <div class="bar"></div>
       </div>
@@ -83,7 +85,7 @@
         <div class="bar"></div>
       </div>
       <div class="button-container">
-        <button><span>Sign Up</span></button>
+        <button type="submit" id="SubmitR" name="SubmitR"><span>Sign Up</span></button>
       </div>
     </form>
   </div>
