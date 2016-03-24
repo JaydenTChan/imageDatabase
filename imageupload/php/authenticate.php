@@ -39,12 +39,18 @@ include("PHPconnectionDB.php");
 		
 	    }
 	    else{
-		    $row = oci_fetch_row($stid);
+			$row = oci_fetch_row($stid);
 			if ($row == true){
 				header("Location: ../home.html");
-			}
-			else {
-				echo $name;
+			}else {
+			//Source: http://stackoverflow.com/questions/13851528/how-to-pop-an-alert-message-box-using-php
+			//Source: http://stackoverflow.com/questions/19825283/redirect-to-a-page-url-after-alert-button-is-pressed
+				$message = "Incorrect username/password";
+				echo "<script type='text/javascript'>";
+				echo "alert('$message');";
+				echo "window.location.href = \"../login.html\";";
+				echo "</script>";
+				
 			}
 		
 	    }

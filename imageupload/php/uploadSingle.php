@@ -7,13 +7,13 @@ include("PHPconnectionDB.php");
         
         if (isset ($_POST['SubmitR'])){
             //get the input
-            $user=$_POST['Username'];
-            $pass=$_POST['Password'];
-            $fname=$_POST['FName'];
-            $lname=$_POST['LName'];
-            $address=$_POST['Address'];
-            $email=$_POST['Email'];
-            $phone=$_POST['Phone'];
+            $image=$_POST['imagePath'];
+            $subject=$_POST['subject'];
+            $place=$_POST['place'];
+            $date=$_POST['date'];
+            $email=$_POST['description'];
+            $access=$_POST['access'];
+            
 			
 	    ini_set('display_errors', 1);
 	    error_reporting(E_ALL);
@@ -26,10 +26,9 @@ include("PHPconnectionDB.php");
 	    }
  	
             //sql command
-            $sql = 'INSERT INTO users VALUES (\''.$user.'\',\''.$pass.'\', to_char(sysdate, \'DD-MON-YYYY\'))'; 
-            	
-	    	$sql2 = 'INSERT INTO persons VALUES (\''.$user.'\', \''.$fname.'\', 
-	    	\''.$lname.'\', \''.$address.'\', \''.$email.'\', \''.$phone.'\')'; 
+            $sql = 'INSERT INTO images VALUES (
+            \''.$user.'\',\''.$pass.'\', 
+            to_char(\''.$date.'\', \'DD-MON-YYYY\'))';
 	    
 	    //Prepare sql using conn and returns the statement identifier
 	    $stid = oci_parse($conn, $sql);
