@@ -21,10 +21,10 @@ include("PHPconnectionDB.php");
 	    }
  	
             //sql command
-            $sql = 'INSERT INTO users VALUES (\''.$ccid.'\',\''.$name.'\', \'23-MAR-16\')'; 
+            $sql = 'INSERT INTO users VALUES (\''.$ccid.'\',\''.$name.'\', to_char(sysdate, \'DD-MON-YYYY\'))'; 
 	    
 	    //Prepare sql using conn and returns the statement identifier
-	    $stid = oci_parse($conn, $sql );
+	    $stid = oci_parse($conn, $sql);
 	    
 	    //Execute a statement returned from oci_parse()
 	    $res=oci_execute($stid);
