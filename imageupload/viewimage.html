@@ -81,10 +81,15 @@
                         <p>
                         <c:if test='${ownerName==username}'>
                             
-                            <!-- Change this -->
+                            <!-- Change this
                             <a href="ViewProfile?${ownerName}">View My Profile</a> |
                             <a href="EditImage?${picId}">Edit Image</a> |
-                            <a href="RemoveImage?${picId}">Remove Image</a>
+                            <a href="RemoveImage?${picId}">Remove Image</a> -->
+                            
+                            <a href="user.html">View My Profile</a> |
+                            <a href="editimage.html">Edit Image</a> |
+                            <a href="deleteimage.php">Remove Image</a>
+                    
                             </c:if>
                             </p>
                             
@@ -123,7 +128,7 @@
                             <a href="/PhotoWebApp/GetFullImage?${picId}" target="_blank"><img src ="/PhotoWebApp/GetFullImage?${picId}" ></a> -->
                             
                             <!-- Can delete this when the above is changed -->
-                            <a href="test2.jpg" target="_blank"><img src ="test2.jpg" ></a>
+                            <a href="test2.jpg" target="_blank"><img src ="test2.jpg" width="600px"></a>
                             
                             </div>
                 </body>
