@@ -45,19 +45,18 @@
             
             <!-- change location to correct location -->
             <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.html'" class="button"><br>
-                <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.html'" class="button"><br>
-                    <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.html'" class="button"><br>
-                        <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.html'" class="button"><br>
                             
-                            <!-- Only shows this if account is "admin" -->
-                            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.html'" class="button"><br>
+            <!-- Only shows this if account is "admin" -->
+            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.html'" class="button"><br>
                                 
-                                <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.html'" class="button"><br>
-                                    <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.html'" class="button"><br>
-                                        <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
-                                            
-                                            
-                                            </nav>
+            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
+                
+        </nav>
         
         <!-- This is the section with the datas and the functions -->
         <section>
@@ -82,15 +81,13 @@
                 
                 <body>
                     
-                    <jsp:include page="resources/includes/header.jsp" />
-                    
                     <div class="content">
                         
                         <p class="pageTitle">Data Analysis</p>
                         
                         <hr/>
                         
-                        <form name="DataAnalysis" method="POST" action="DataAnalysis">
+                        <form name="DataAnalysis" method="POST" action="dataanalysisreport.html">
                             <table>
                                 <tr>
                                     <th colspan="2">Please specify your parameters</th>
