@@ -45,19 +45,18 @@
             
             <!-- change location to correct location -->
             <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.html'" class="button"><br>
-                <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.html'" class="button"><br>
-                    <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.html'" class="button"><br>
-                        <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.html'" class="button"><br>
                             
-                            <!-- Only shows this if account is "admin" -->
-                            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.html'" class="button"><br>
+            <!-- Only shows this if account is "admin" -->
+            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.html'" class="button"><br>
                                 
-                                <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.html'" class="button"><br>
-                                    <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.html'" class="button"><br>
-                                        <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
+            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
                                             
-                                            
-                                            </nav>
+        </nav>
         
         <!-- This is the section with the datas and the functions -->
         <section>
@@ -67,7 +66,6 @@
                 
                 <head>
                     <title>Group Management</title>
-                    <link type="text/css" rel="stylesheet" href="/PhotoWebApp/resources/style/style.css"/>
                 </head>
                 
                 <body>
@@ -80,6 +78,7 @@
                         
                         <hr>
                         
+                        <!-- TODO: Change action to spl php -->
                         <form name="GroupManagement" action="GroupManagement" method="post">
                             <table>
                                 <tbody>
@@ -90,11 +89,13 @@
                                     <tr>
                                         <th></th>
                                         <td>
+                                            
                                             <input type="submit" name="submit" value="Create">
-                                                <input type="submit" name="submit" value="Delete">
-                                                    
-                                                    <input type="button" value="Cancel" onclick="location.href='ViewProfile?${username}'">
-                                                        </td>
+                                            <input type="submit" name="submit" value="Delete">
+                                                
+                                            <!-- Change onclick location -->
+                                            <input type="button" value="Cancel" onclick="location.href='user.html'">
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
