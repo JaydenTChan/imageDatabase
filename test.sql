@@ -1,0 +1,4 @@
+/*INSERT*/
+
+SELECT *
+FROM users;
