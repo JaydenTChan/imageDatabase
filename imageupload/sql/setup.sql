@@ -69,4 +69,8 @@ CREATE TABLE images (
    FOREIGN KEY(permitted) REFERENCES groups
 );
 
+/*
+ * New Stuff
+ */
+
 INSERT INTO users VALUES ('admin', 'admin', sysdate);
