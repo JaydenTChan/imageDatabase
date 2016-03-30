@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -45,16 +49,20 @@
             
             <!-- change location to correct location -->
             <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.php'" class="button"><br>
+
+            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.html'" class="button"><br>
             <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.php'" class="button"><br>
                             
             <!-- Only shows this if account is "admin" -->
-            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.php'" class="button"><br>
+            <?php 
+            	if ($_SESSION["user"] == "admin") { ?>
+            	<INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.html'" class="button"><br>
+            <?php } ?>
+            	
+            
                 
-            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.php'" class="button">
+            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.html'" class="button"><br>
                                             
                             
         </nav>
@@ -84,7 +92,9 @@
                     
                     <div class="content">
                         <p>
+
                         <a href="uploadmulti.php">Upload Multiple Images</a>
+
                         </p>
                         
                         <hr>
@@ -98,11 +108,13 @@
                                 </tr>
                                 <tr>
                                     <th>Subject: </th>
-                                    <td><input name="subject" id="subject" size="50" maxlength="128" type="text"></td>
+
+                                    <td><input name="subject" size="50" maxlength="128" type="text"></td>
                                 </tr>
                                 <tr>
                                     <th>Place: </th>
-                                    <td><input name="place" id="place" size="50" maxlength="128" type="text"></td>
+                                    <td><input name="place" size="50" maxlength="128" type="text"></td>
+
                                 </tr>
                                 <tr>
                                     <th>Date: </th>
@@ -113,22 +125,24 @@
                                 </tr>
                                 <tr>
                                     <th>Description: </th>
-                                    <td><textarea name="description" id="description" rows="4" cols="57" maxlength="2048"></textarea></td>
+                                    <td><textarea name="description" rows="4" cols="57" maxlength="2048"></textarea></td>
+
                                 </tr>
                                 <tr>
                                     <th>Access: <span class="requiredField">*</span></th>
                                     <td>
                                         <select name="access">
-                                           <?php
-                        			echo $groups;
-                        
-                        		?>
+
+                                            <?php 
+                                            	
+                                            	?>
+
                                                 </select>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th></th>
-                                    <td><br><input name="SubmitR" id="SumbitR" value="Upload" type="submit"></td>
+                                    <td><br><input name=".submit" value="Upload" type="submit"></td>
                                 </tr>
                                 </tbody>
                             </table>

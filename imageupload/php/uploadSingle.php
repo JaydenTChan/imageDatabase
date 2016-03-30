@@ -1,21 +1,33 @@
+<?php
+session_start();
+?>
 <html>
     <body>
        <?php
-        session_start();
-	$user = $_SESSION['user-name'];	
-	include("PHPconnectionDB.php");
-
+       include("PHPconnectionDB.php");
+       $curuser = $_SESSION["user"];
+       echo "User: " .$curuser. "<br>";
+       
+       $image=$_POST['imagePath'];
+            $subject=$_POST['subject'];
+            echo "Subject: " .$subject. "<br>";
+            $place=$_POST['place'];
+            echo "Place: " .$Place. "<br>";
+            $date=$_POST['date'];
+            echo "Date: " .$subject. "<br>";
+           $email=$_POST['description'];
+           echo "Subject: " .$description. "<br>";
+       $access=$_POST['access'];
+       echo "Subject: " .$access. "<br>";
         if (isset ($_POST['SubmitR'])){
             //get the input
             $image=$_POST['imagePath'];
             $subject=$_POST['subject'];
+
             $place=$_POST['place'];
             $date=$_POST['date'];
             $email=$_POST['description'];
             $access=$_POST['access'];
-
-		echo "$user";
-            
 			
 	    ini_set('display_errors', 1);
 	    error_reporting(E_ALL);
