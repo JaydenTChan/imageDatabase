@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -44,13 +47,17 @@
         <nav>
             
             <!-- change location to correct location -->
-            <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
                             
             <!-- Only shows this if account is "admin" -->
-            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.html'" class="button"><br>
+            <?php 
+            	if ($_SESSION["user"] == "admin") { ?>
+            	<INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.html'" class="button"><br>
+            <?php } ?>
+            	
+            
                 
             <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.html'" class="button"><br>
             <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.html'" class="button"><br>
@@ -90,7 +97,7 @@
                         <hr>
                         
                         <!-- Change action -->
-                        <form name="uploadImage" method="POST" enctype="multipart/form-data" action="upload.html">
+                        <form name="uploadImage" method="POST" enctype="multipart/form-data" action="php/uploadSingle.php">
                             <table>
                                 <tr>
                                     <th>File path: <span class="requiredField">*</span></th>
@@ -119,9 +126,9 @@
                                     <th>Access: <span class="requiredField">*</span></th>
                                     <td>
                                         <select name="access">
-                                            <c:forEach items="${groups}" var="group">
-                                                <option value="${group[1]}" <c:if test="${group[1]==2}">selected=true</c:if> >${group[0]}</option>
-                                                </c:forEach>
+                                            <?php 
+                                            	
+                                            	?>
                                                 </select>
                                     </td>
                                 </tr>

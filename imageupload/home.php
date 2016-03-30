@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -47,22 +50,19 @@
         <nav>
             
             <!-- change location to correct location -->
-            <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
             <!-- <INPUT TYPE="button" VALUE="Display" onclick="location.href='search.html'" class="button"><br> -->
             <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
                 
             <!-- Might not need. Can remove from other pages.
             <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.html'" class="button"><br> -->
                 
             <!-- Only shows this if account is "admin" -->
-            <!-- Need to test this
-             <c:if test='${username == "admin"}'>
-             <li>
-             <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.html'" class="button"><br>
-             </li>
-             </c:if> -->
-            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.html'" class="button"><br>
+	<?php 
+            	if ($_SESSION["user"] == "admin") { ?>
+            	<INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.html'" class="button"><br>
+            <?php } ?>
                 
             <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.html'" class="button"><br>
                 
