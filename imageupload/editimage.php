@@ -1,3 +1,7 @@
+<?php
+//Start the session
+session_start();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -50,11 +54,14 @@
             <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.php'" class="button"><br>
                             
             <!-- Only shows this if account is "admin" -->
-            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.php'" class="button"><br>
+            <?php 
+            	if ($_SESSION["user"] == "admin") { ?>
+            	<INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.php'" class="button"><br>
+            <?php } ?>
                                 
             <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
+            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.php'" class="button">
                                             
                                             
         </nav>
