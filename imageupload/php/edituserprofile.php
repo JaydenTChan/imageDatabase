@@ -92,11 +92,11 @@ include("PHPconnectionDB.php");
 		//Dev Error messages
 		//$err = oci_error($stid); 6
 		//echo htmlentities($err['message']);
-			$message = "Some Error.";
-			echo "<script type='text/javascript'>";
-			echo "alert('$message');";
-			echo "window.location.href = \"../user.php\";";
-			echo "</script>";
+		$message = "Some Error.";
+		echo "<script type='text/javascript'>";
+		echo "alert('$message');";
+		echo "window.location.href = \"../user.php\";";
+		echo "</script>";
 	    } /*else {
 	    	oci_commit($conn);
 	    	$message = "Profile Updated.";

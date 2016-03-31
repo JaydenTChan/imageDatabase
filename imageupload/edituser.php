@@ -46,10 +46,10 @@ function getres($sql,$conn) {
 	    $res1=oci_execute($stid1);
 	    
 	    while ($row=oci_fetch_array($stid1,OCI_BOTH)){
-	    	echo "good <br>";
+	    	//echo "good <br>";
 	    	$usern= $row[0]; 
 	    	$password=$row[1];
-	    	echo "pas --" .$password. " --  <br>";
+	    	//echo "pas --" .$password. " --  <br>";
 	    }
 	    	
 	    
