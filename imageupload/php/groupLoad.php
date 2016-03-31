@@ -1,7 +1,8 @@
 <?php
 include("PHPconnectionDB.php");
 
-function getUserGroups(){
+function getUserOwnerGroups(){
+	//This function gets all the groups the user owns
 	session_start();
 
 	//establish connection
@@ -27,7 +28,6 @@ function getUserGroups(){
 	}else{
 		echo "<select name=\"groupList\">";
 		
-		//if($row ==true){echo "<option value=default>Hello</option>";}else{echo "<option value=default>Fail</option>";}
 		while($row = oci_fetch_row($stid)){
 			//Loop until no more rows
 			echo "<option value=\"" . $row[0] . "\">" . $row[2] . "</option>";
@@ -43,7 +43,13 @@ function getUserGroups(){
 	return;
 }
 
+function getUserGroups(){
+	//This function gets all the groups the user belongs to
+	//This function will return ALL groups to the admin (Admin may view any image)
+}
+
 function createGroup(){
+	//This function is used to create new groups
 	session_start();
 
 	//establish connection
@@ -75,5 +81,10 @@ function createGroup(){
 	
 	return;
 }
+
+function loadGroup(){
+	//This function loads all the information for a specific group so that the owner may edit it.
+}
+
 
 ?>
