@@ -151,29 +151,35 @@ include("index.php");
 				    
 				    $sql = array(
 				    '
-				    SELECT score(1) , subject FROM images 
+				    SELECT photo_id FROM images 
 				    WHERE CONTAINS(subject, \'' . $k_words . '\', 1) > 0 
 				    OR CONTAINS(place, \'' . $k_words . '\', 2) > 0
 				    OR CONTAINS(description, \'' . $k_words . '\', 3) > 0
 				    ORDER BY timing ASC',
 				    '
-				    SELECT score(1) , subject FROM images 
+				    SELECT photo_id FROM images 
 				    WHERE CONTAINS(subject, \'' . $k_words . '\', 1) > 0 
 				    OR CONTAINS(place, \'' . $k_words . '\', 2) > 0
 				    OR CONTAINS(description, \'' . $k_words . '\', 3) > 0
 				    ORDER BY timing DESC',
 				    '
-				    SELECT score(1) , subject FROM images 
+				    SELECT photo_id FROM images 
 				    WHERE CONTAINS(subject, \'' . $k_words . '\', 1) > 0 
 				    OR CONTAINS(place, \'' . $k_words . '\', 2) > 0
 				    OR CONTAINS(description, \'' . $k_words . '\', 3) > 0
-				    ORDER BY timing ASC'
+				    ORDER BY (6*score(1) + 3*score(2) + score(3)) DESC'
 				    );
 				    
 				    //
 				    
 				    //Prepare sql using conn and returns the statement identifier
-				    $stid = oci_parse($conn, $sql);
+				    if($sort == 'New'){
+				    	$stid = oci_parse($conn, $sql[0]);
+			    	    }else if($sort == 'Old'){
+			    	    	$stid = oci_parse($conn, $sql[1]);
+			    	    }else{
+			    	    	$stid = oci_parse($conn, $sql[2]);
+			    	    }
 				    
 				    //Execute a statement returned from oci_parse()
 				    $res=oci_execute($stid);
