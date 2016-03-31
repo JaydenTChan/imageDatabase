@@ -1,3 +1,7 @@
+<?php
+include("php/groupLoad.php");
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -97,6 +101,11 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </form>
+                        
+                        <form name="groupForm" action="groupedit.php" method="post">
+                        	<?php getUserGroups(); ?>
+                        	<input type="submit">
                         </form>
                     </div>
                 </body>
