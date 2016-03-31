@@ -1,0 +1,24 @@
+TODO by Priority
+
+//Must do by thursday
+1. Fix Upload to work properly
+	-None of it works correctly
+2. Make sure groups work
+	-Most of the framework is available
+3. Display Module/Search Module
+	-Need to make this from scratch
+	-May potentially hitch onto the search module
+	-Make sure the include the following:
+		+Group filter
+		+Relevance
+4. Make sure display works in conjunction with display and groups
+	-This will probably consume a lot of time....
+5. Data analytics
+	-Not even sure how to do this
+6. User Mangement Module Polish
+	-Allow changing of select information (not the username)
+
+//Can be delayed until friday
+7. Project Report
+8. User Documentation
+9. Refine comments

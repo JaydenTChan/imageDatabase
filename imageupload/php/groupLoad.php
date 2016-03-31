@@ -153,7 +153,7 @@ function loadGroup($groupID){
 	SELECT date_created FROM groups WHERE group_id = \'' . $groupID . '\'','
 	SELECT friend_id, date_added, notice FROM group_lists WHERE group_id = \'' . $groupID . '\' 
 	AND friend_id <> \'' . $_SESSION["user"] . '\''
-	);
+	);=-
 
 	for ($count = 0 ; $count < 1 ; $count++){
 		//Iterate all sql statements
@@ -166,7 +166,7 @@ function loadGroup($groupID){
 			//Error Message
 			$message = "Server busy";
 			echo "<script type='text/javascript'>";
-			echo "alert('$message');";
+			echo "alert('$message');";=-
 			echo "</script>";
 		}
 		//TODO: READ AND ECHO EDITABLE TEXTBOXES
@@ -198,14 +198,24 @@ function saveGroup($groupID, $groupName){
 	*/
 }
 
-function addFriendToGroup(){
+function addFriendToGroup($groupID, $friendID, $notice){
 	//This function saves the friend into group_lists
 	//TODO: READ FROM LIST AND WRITE ONLY NEW FRIENDS
+	/*SQL STATEMENT
+	'
+	INSERT INTO group_lists VALUES(' .$groupID. ', \'' .$friendID. '\',
+	to_char(sysdate, \'DD-MON-YYYY\'), \'' .$notice. '\')'
+	*/
 }
 
-function removeFriendFromGroup(){
+function removeFriendFromGroup($groupID, $friendID){
 	//This function removes the friend from group_lists
 	//TODO: READ FROM LIST AND WRITE ONLY NEW FRIENDS
+	/*SQL STATEMENT
+	'
+	DELETE FROM group_lists
+	WHERE group_id = ' .$groupID. ' AND friend_id = \'' .$friendID. '\' '
+	*/
 }
 
 
