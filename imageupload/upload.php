@@ -1,5 +1,17 @@
 <?php
 session_start();
+include("php/PHPconnectionDB.php");
+$conn=connect();
+
+function getres($sql,$conn) {
+    $stid = oci_parse($conn,$sql);
+    $res = oci_execute($stid);
+    while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
+        foreach($row as$item)   {
+            echo '<option>'.$item.'</option>';
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -48,19 +60,19 @@ session_start();
             
             <!-- change location to correct location -->
             <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
                             
             <!-- Only shows this if account is "admin" -->
             <?php 
             	if ($_SESSION["user"] == "admin") { ?>
-            	<INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.html'" class="button"><br>
+            	<INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.php'" class="button"><br>
             <?php } ?>
             	
             
                 
-            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
                                             
                             
@@ -81,7 +93,7 @@ session_start();
                             <script type="text/javascript">
                                 $(function() {
                                   $(function(){
-                                    $("#date").datepicker({dateFormat:"dd/mm/yy"});
+                                    $("#date").datepicker({dateFormat:"dd-mm-yy"});
                                     });
                                   });
                             </script>
@@ -91,7 +103,7 @@ session_start();
                     
                     <div class="content">
                         <p>
-                        <a href="uploadmulti.html">Upload Multiple Images</a>
+                        <a href="uploadmulti.php">Upload Multiple Images</a>
                         </p>
                         
                         <hr>
@@ -115,19 +127,19 @@ session_start();
                                     <th>Date: </th>
                                     <td>
                                         <input name="date" id="date" class="date-picker" maxlength="10"/>
-                                        <span class="formHintText">(dd/MM/yyyy)</span>
+                                        <span class="formHintText">(DD-MM-YYYY)</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Description: </th>
-                                    <td><textarea name="description" rows="4" cols="57" maxlength="2048"></textarea></td>
+                                    <td><textarea name="description" id="description" rows="4" cols="57" maxlength="2048"></textarea></td>
                                 </tr>
                                 <tr>
                                     <th>Access: <span class="requiredField">*</span></th>
                                     <td>
                                         <select name="access">
                                             <?php 
-                                            	
+                                            	getres("select distinct group_id from groups",$conn);
                                             	?>
                                                 </select>
                                     </td>
