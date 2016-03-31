@@ -1,3 +1,67 @@
+<?php
+session_start();
+include("php/PHPconnectionDB.php");
+$conn=connect();
+function getres($sql,$conn) {
+    $stid = oci_parse($conn,$sql);
+    $res = oci_execute($stid);
+    while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
+        foreach($row as$item)   {
+            echo '<option>'.$item.'</option>';
+        }
+    }
+}
+	      
+		if (!$conn) {
+    		$e = oci_error();
+    		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+	    }
+			$user=$_SESSION['user'];
+			//echo "hello $user";
+			
+			$sql='select * from Persons where user_name=\''.$user.'\'';
+			//echo $sql;
+	    //Prepare sql using conn and returns the statement identifier
+	    $stid = oci_parse($conn, $sql);
+	    
+	    //Execute a statement returned from oci_parse()
+	    $res=oci_execute($stid);
+	    
+	    while ($row=oci_fetch_array($stid,OCI_BOTH)){
+	    	//echo "good";
+	    	$username= $row[0]; 
+	    	$firstname=$row[1];
+	    	$lastname=$row[2];
+	    	$address=$row[3];
+	    	$email=$row[4];
+	    	$phone=$row[5];
+	    	}
+	    	
+	    $sql1='select * from users where user_name=\''.$user.'\'';
+	    
+	    //Prepare sql using conn and returns the statement identifier
+	    $stid1 = oci_parse($conn, $sql1);
+	    
+	    //Execute a statement returned from oci_parse()
+	    $res1=oci_execute($stid1);
+	    
+	    while ($row=oci_fetch_array($stid1,OCI_BOTH)){
+	    	echo "good <br>";
+	    	$password=$row[1];
+	    	echo "pas --" .$password. " --  <br>";
+	    }
+	    	
+	    
+	    //$row=oci_fetch_array($stid,OCI_BOTH)
+	    oci_free_statement($stid1);
+	    	
+	    
+	    //$row=oci_fetch_array($stid,OCI_BOTH)
+	    oci_free_statement($stid);
+	    oci_close($conn);
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -54,7 +118,7 @@
                                 
             <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
+            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.php'" class="button">
                                             
                                         
         </nav>
@@ -73,42 +137,56 @@
                 </head>
                 
                 <body>
-                    
-                    <jsp:include page="resources/includes/header.jsp" />
-                    
+
                     <div class="content">
                         <p class="pageTitle">My Profile</p>
                         
                         <hr>
                         
                         <p class="pageTitle">Account:</p>
-                        <a href="edituser.jsp">Edit Account Information</a>
+                        <a href="edituser.php">Edit Account Information</a>
                         <p>
                         <table>
                             <tbody>
                                 <tr>
-                                    <th>Username: </th>
-                                    <td>${username}</td>
+                                    <!-- <th>Username: </th>
+                                    <td>${username}</td> 
+                                    <?php echo "this --- " .$user . "<br>"; ?> -->
+                                    <?php echo "<th>Username: </th><td>" .$username. " </td>"; ?>
+                
                                 </tr>
                                 <tr>
-                                    <th>First Name: </th>
-                                    <td>${userFirstName}</td>
+                                    <!-- <th>First Name: </th>
+                                    <td>${userFirstName}</td> -->
+                                     <?php echo "<th>First name: </th><td>" .$firstname. "<br>"; ?> 
                                 </tr>
                                 <tr>
-                                    <th>Last Name: </th>
-                                    <td>${userLastName}</td>
+                                    <!--<th>Last Name: </th>
+                                     <td>${userLastName}</td>-->
+                                     <?php echo "<th>Last name: </th><td>" .$lastname. "<br>"; ?>        
+                                </tr>
+                                
+                                <tr>
+                                    <!-- <th>Address: </th>
+                                    <td>${address}</td> 
+                                    <?php echo "Address: $address"; ?>  <br>-->
+                                    <?php echo "<th>Address: </th><td>" .$address. "<br>"; ?>
+                                    
+                                    
+      	                        </tr>
+                                <tr>
+                                    <!-- <th>Email: </th>
+                                    <td>${email}</td> 
+                                    <?php echo "Email: $email"; ?>  <br> -->
+                                    <?php echo "<th>Email: </th><td>" .$email. "<br>"; ?>
+                                    
                                 </tr>
                                 <tr>
-                                    <th>Phone number: </th>
-                                    <td>${phone}</td>
-                                </tr>
-                                <tr>
-                                    <th>Email: </th>
-                                    <td>${email}</td>
-                                </tr>
-                                <tr>
-                                    <th>Address: </th>
-                                    <td>${address}</td>
+                                    <!-- <th>Phone number: </th>
+                                    <td>${phone}</td> 
+                                    <?php echo "Phone: $phone"; ?>   <br> -->
+                                    <?php echo "<th>Phone: </th><td>" .$phone. "<br>"; ?>
+                                    
                                 </tr>
                             </tbody>
                         </table>
