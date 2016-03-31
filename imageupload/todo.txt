@@ -1,8 +1,8 @@
 TODO by Priority
 
 //Must do by thursday
-1. Fix Upload to work properly
-	-None of it works correctly
+//1. Fix Upload to work properly
+//	-None of it works correctly
 2. Make sure groups work
 	-Most of the framework is available
 3. Display Module/Search Module
@@ -15,8 +15,8 @@ TODO by Priority
 	-This will probably consume a lot of time....
 5. Data analytics
 	-Not even sure how to do this
-6. User Mangement Module Polish
-	-Allow changing of select information (not the username)
+//6. User Mangement Module Polish
+//	-Allow changing of select information (not the username)
 
 //Can be delayed until friday
 7. Project Report

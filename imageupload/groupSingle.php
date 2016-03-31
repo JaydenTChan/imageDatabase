@@ -64,53 +64,32 @@ include("php/groupLoad.php");
         
         <!-- This is the section with the datas and the functions -->
         <section>
-            <h1>Groups</h1>
-            <p></p>
-            <html>
+	    <h1>Group Management</h1>
+	    <p></p>
+	    <html>
+                
+                <head>
+                    <title>Group Management</title>
+                </head>
                 
                 <body>
                     
                     <div class="content">
-                        
+
                         <hr>
                         
-                        <!-- TODO: Change action to spl php -->
-                        <form name="GroupManagement" method="post">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th>Group Name: <span class="requiredField">*</span></th>
-                                        <td><input type="text" maxlength="24" size="24" name="groupname"></td>
-                                    </tr>
-                                    <tr>
-                                        <th></th>
-                                        <td>
-                                            
-                                            <input type="submit" name="submit" value="Create">
-                                                
-                                            <!-- Change onclick location -->
-                                            <input type="button" value="Cancel" onclick="location.href='user.php'">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                        <?php if (isset ($_POST['submit'])){createGroup($_POST['groupname']);} ?>
-                        
-                        <form name="groupForm" method="post">
-                        	<?php getUserOwnerGroups(); ?>
-                        	<input type="submit" name="edit" value="Edit">
-                        	<input type="submit" name="delete" value="Delete">
-                        </form>
+                        <!-- Management Form -->
                         <?php 
-                        if(isset($_POST['edit'])){
-                        	$_SESSION["group"]=$_POST['groupList'];
-                        	header('Location: groupSingle.php');
-                        	echo $_POST['groupList'];
-                        	}
+                        echo '<p>Group ID: ' . $_SESSION["group"] . '</p>';
+                        
                         
                         ?>
                         
+                        <form>
+                        	<label for="friendText">Add User</label>
+                        	<input type="text" name="addFriend" id="friendText">
+                        	<input type="submit" value="Add"><br>
+                        </form>
                     </div>
                 </body>
                 
