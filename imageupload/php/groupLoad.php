@@ -148,11 +148,11 @@ function loadGroup($groupID){
 
 	$sql = array('
 	SELECT group_name, date_created FROM groups WHERE group_id = \'' . $groupID . '\'','
-	SELECT friend_id, date_added, notice FROM group_lists WHERE group_id = \'' . $groupID . '\' 
+	SELECT friend_id FROM group_lists WHERE group_id = \'' . $groupID . '\' 
 	AND friend_id <> \'' . $_SESSION["user"] . '\''
 	);
 
-	for ($count = 0 ; $count < 1 ; $count++){
+	for ($count = 0 ; $count < 2 ; $count++){
 		//Iterate all sql statements
 		//Prepare sql using conn and returns the statement identifier
 		$stid = oci_parse($conn, $sql[$count]);
@@ -178,8 +178,16 @@ function loadGroup($groupID){
 			echo '<P>Date Created: ' . $row[1] . '</p>';
 		}else{
 			//group_lists
-			
-			
+			echo "<form>";
+			echo "<select name=\"friendList\">";
+		
+			while($row = oci_fetch_row($stid)){
+				//Loop until no more rows
+				echo "<option value=\"" . $row[0] . "\">" . $row[0] . "</option>";
+			}
+			echo "</select>";		
+			echo '<input type="submit" name="delete" value="Delete">';
+			echo "</form>";
 		}
 		
 	}
