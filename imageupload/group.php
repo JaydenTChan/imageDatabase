@@ -81,7 +81,7 @@ include("php/groupLoad.php");
                         <hr>
                         
                         <!-- TODO: Change action to spl php -->
-                        <form name="GroupManagement" action="GroupManagement" method="post">
+                        <form name="GroupManagement" action="group" method="post">
                             <table>
                                 <tbody>
                                     <tr>
@@ -102,6 +102,7 @@ include("php/groupLoad.php");
                                 </tbody>
                             </table>
                         </form>
+                        <?php if (isset ($_POST['submit'])){createGroup();} ?>
                         
                         <form name="groupForm" action="groupedit.php" method="post">
                         	<?php getUserGroups(); ?>
