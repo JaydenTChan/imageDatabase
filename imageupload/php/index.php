@@ -1,7 +1,8 @@
 <?php
 include("PHPconnectionDB.php");
 
-//establish connection
+function indexImages(){
+	//establish connection
 	$conn=connect();
 	if (!$conn) {
 		$e = oci_error();
@@ -31,4 +32,7 @@ include("PHPconnectionDB.php");
 	// Free the statement identifier when closing the connection
 	oci_free_statement($stid);
 	oci_close($conn);
+	
+	return;
+}
 ?>

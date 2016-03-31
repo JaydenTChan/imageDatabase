@@ -2,6 +2,7 @@
 //Start the session
 session_start();
 include("PHPconnectionDB.php");
+include("index.php");
 ?>
 
 <!DOCTYPE html>
@@ -125,6 +126,8 @@ include("PHPconnectionDB.php");
                     	</form>
 			<?php
 				if (isset ($_POST['Search'])){
+				    indexImages();
+				
 				    //get the input
 				    $k_words=$_POST['keywords'];
 				    $fr_date=$_POST['fromDate'];
@@ -141,12 +144,32 @@ include("PHPconnectionDB.php");
 			    		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 				    }
 				    
-				    //Add wildcard symbols
-				    $k_words = '%' . $k_words . '%';
-				    $k_words = str_replace(' ', '% & %', $k_words);
+				    //Add ands
+				    $k_words = str_replace(' ', ' AND ', $k_words);
 			 	
 				    //sql command
-				    $sql = 'SELECT * FROM users WHERE user_name = \''.$name.'\' and password = \''.$pass.'\'' ;
+				    
+				    $sql = array(
+				    '
+				    SELECT score(1) , subject FROM images 
+				    WHERE CONTAINS(subject, \'' . $k_words . '\', 1) > 0 
+				    OR CONTAINS(place, \'' . $k_words . '\', 2) > 0
+				    OR CONTAINS(description, \'' . $k_words . '\', 3) > 0
+				    ORDER BY timing ASC',
+				    '
+				    SELECT score(1) , subject FROM images 
+				    WHERE CONTAINS(subject, \'' . $k_words . '\', 1) > 0 
+				    OR CONTAINS(place, \'' . $k_words . '\', 2) > 0
+				    OR CONTAINS(description, \'' . $k_words . '\', 3) > 0
+				    ORDER BY timing DESC',
+				    '
+				    SELECT score(1) , subject FROM images 
+				    WHERE CONTAINS(subject, \'' . $k_words . '\', 1) > 0 
+				    OR CONTAINS(place, \'' . $k_words . '\', 2) > 0
+				    OR CONTAINS(description, \'' . $k_words . '\', 3) > 0
+				    ORDER BY timing ASC'
+				    );
+				    
 				    //
 				    
 				    //Prepare sql using conn and returns the statement identifier
