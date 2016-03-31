@@ -1,14 +1,14 @@
+<?php
 /*
 Created by JaydenTChan 2016-03-30
 A lot of the code is referenced from the SQL examples as provided by eclass
 */
 
-<?php
+session_start();
 include("PHPconnectionDB.php");
 
 function getUserOwnerGroups(){
 	//This function gets all the groups the user owns
-	session_start();
 
 	//establish connection
 	$conn=connect();
@@ -51,7 +51,6 @@ function getUserOwnerGroups(){
 function getUserGroups(){
 	//This function gets all the groups the user belongs to
 	//This function will return ALL groups to the admin (Admin may view any image)
-	session_start();
 
 	//establish connection
 	$conn=connect();
@@ -82,7 +81,7 @@ function getUserGroups(){
 		
 		while($row = oci_fetch_row($stid)){
 			//Loop until no more rows
-			echo "<option value=\"" . $row[0] . "\">" . $row[2] . "</option>";
+			echo "<option value=" . $row[0] . ">" . $row[2] . "</option>";
 		}
 		echo "</select>";
 	}
@@ -97,7 +96,6 @@ function getUserGroups(){
 
 function createGroup($groupName){
 	//This function is used to create new groups
-	session_start();
 
 	//establish connection
 	$conn=connect();
@@ -140,7 +138,6 @@ function createGroup($groupName){
 
 function loadGroup($groupID){
 	//This function loads all the information for a specific group so that the owner may edit it.
-	session_start();
 
 	//establish connection
 	$conn=connect();
@@ -150,10 +147,10 @@ function loadGroup($groupID){
 	}
 
 	$sql = array('
-	SELECT date_created FROM groups WHERE group_id = \'' . $groupID . '\'','
+	SELECT group_name, date_created FROM groups WHERE group_id = \'' . $groupID . '\'','
 	SELECT friend_id, date_added, notice FROM group_lists WHERE group_id = \'' . $groupID . '\' 
 	AND friend_id <> \'' . $_SESSION["user"] . '\''
-	);=-
+	);
 
 	for ($count = 0 ; $count < 1 ; $count++){
 		//Iterate all sql statements
@@ -166,13 +163,14 @@ function loadGroup($groupID){
 			//Error Message
 			$message = "Server busy";
 			echo "<script type='text/javascript'>";
-			echo "alert('$message');";=-
+			echo "alert('$message');";
 			echo "</script>";
 		}
 		//TODO: READ AND ECHO EDITABLE TEXTBOXES
 		if($count == 0){
 			//groups
-			
+			$row = oci_fetch_row($stid);
+			echo '<p>Group Name: </p>'
 		}else{
 			//group_lists
 			

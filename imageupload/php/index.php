@@ -1,9 +1,8 @@
+<?php
 /*
 Created by JaydenTChan 2016-03-30
 A lot of the code is referenced from the SQL examples as provided by eclass
 */
-
-<?php
 include("PHPconnectionDB.php");
 
 function indexImages(){

@@ -54,12 +54,13 @@ session_start();
             <!-- change location to correct location -->
             <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
 
-            <!-- <INPUT TYPE="button" VALUE="Display" onclick="location.href='search.html'" class="button"><br> -->
+            <!-- <INPUT TYPE="button" VALUE="Display" onclick="location.href='search.php'" class="button"><br> -->
+
             <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
                 
             <!-- Might not need. Can remove from other pages.
-            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.html'" class="button"><br> -->
+            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.php'" class="button"><br> -->
                 
             <!-- Only shows this if account is "admin" -->
 			<?php 
