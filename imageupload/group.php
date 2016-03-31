@@ -104,7 +104,7 @@ include("php/groupLoad.php");
                         </form>
                         <?php if (isset ($_POST['submit'])){createGroup();} ?>
                         
-                        <form name="groupForm" action="groupedit.php" method="post">
+                        <form name="groupForm" action="groupSingle.php" method="post">
                         	<?php getUserOwnerGroups(); ?>
                         	<input type="submit">
                         </form>

@@ -1,3 +1,8 @@
+/*
+Created by JaydenTChan 2016-03-30
+A lot of the code is referenced from the SQL examples as provided by eclass
+*/
+
 <?php
 include("PHPconnectionDB.php");
 
@@ -90,10 +95,9 @@ function getUserGroups(){
 	return;
 }
 
-function createGroup(){
+function createGroup($groupName){
 	//This function is used to create new groups
 	session_start();
-	$groupName = $_POST['groupname'];
 
 	//establish connection
 	$conn=connect();
@@ -129,17 +133,79 @@ function createGroup(){
 	oci_free_statement($stid);
 	oci_close($conn);
 	
+	header("Refresh:0");
+	
 	return;
 }
 
-function loadGroup(){
+function loadGroup($groupID){
 	//This function loads all the information for a specific group so that the owner may edit it.
-	//TODO: READ AND ECHO EDITABLE TEXTBOXES
+	session_start();
+
+	//establish connection
+	$conn=connect();
+	if (!$conn) {
+		$e = oci_error();
+		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+	}
+
+	$sql = array('
+	SELECT date_created FROM groups WHERE group_id = \'' . $groupID . '\'','
+	SELECT friend_id, date_added, notice FROM group_lists WHERE group_id = \'' . $groupID . '\' 
+	AND friend_id <> \'' . $_SESSION["user"] . '\''
+	);
+
+	for ($count = 0 ; $count < 1 ; $count++){
+		//Iterate all sql statements
+		//Prepare sql using conn and returns the statement identifier
+		$stid = oci_parse($conn, $sql[$count]);
+		//Execute a statement returned from oci_parse()
+		$res=oci_execute($stid);
+
+		if (!$res) {
+			//Error Message
+			$message = "Server busy";
+			echo "<script type='text/javascript'>";
+			echo "alert('$message');";
+			echo "</script>";
+		}
+		//TODO: READ AND ECHO EDITABLE TEXTBOXES
+		if($count == 0){
+			//groups
+			
+		}else{
+			//group_lists
+			
+		}
+		
+	}
+
+	// Free the statement identifier when closing the connection
+	oci_free_statement($stid);
+	oci_close($conn);
+	
+	return;
 }
 
-function saveGroup(){
-	//This function saves the group back to the table with the updated statistics
+function saveGroup($groupID, $groupName){
+	//This function saves the group back to the table with the updated name
 	//TODO: READ TEXTBOXES AND UPDATE TABLE
+	/*SQL STATEMENT
+	'
+	UPDATE groups
+	SET group_name = $groupName
+	WHERE group_id = ' . $groupID . ''
+	*/
+}
+
+function addFriendToGroup(){
+	//This function saves the friend into group_lists
+	//TODO: READ FROM LIST AND WRITE ONLY NEW FRIENDS
+}
+
+function removeFriendFromGroup(){
+	//This function removes the friend from group_lists
+	//TODO: READ FROM LIST AND WRITE ONLY NEW FRIENDS
 }
 
 
