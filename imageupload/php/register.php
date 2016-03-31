@@ -28,7 +28,7 @@ include("PHPconnectionDB.php");
             //sql command
             $sql = 'INSERT INTO users VALUES (\''.$user.'\',\''.$pass.'\', to_char(sysdate, \'DD-MON-YYYY\'))'; 
             	
-	    	$sql2 = 'INSERT INTO persons VALUES (\''.$user.'\', \''.$fname.'\', 
+	    $sql2 = 'INSERT INTO persons VALUES (\''.$user.'\', \''.$fname.'\', 
 	    	\''.$lname.'\', \''.$address.'\', \''.$email.'\', \''.$phone.'\')'; 
 	    
 	    //Prepare sql using conn and returns the statement identifier
@@ -59,7 +59,7 @@ include("PHPconnectionDB.php");
 	    
 	    if (!$res) {
 		//Dev Error messages
-		//$err = oci_error($stid); 
+		//$err = oci_error($stid); 6
 		//echo htmlentities($err['message']);
 		$message = "Email already registered.";
 		echo "<script type='text/javascript'>";
@@ -67,7 +67,12 @@ include("PHPconnectionDB.php");
 		echo "window.location.href = \"../login.html\";";
 		echo "</script>";
 	    }else{
-		header("Location: ../home.php");
+	    	$message = "Registration Successful.";
+		echo "<script type='text/javascript'>";
+		echo "alert('$message');";
+		echo "window.location.href = \"../login.html\";";
+		echo "</script>";
+		//header("Location: ../home.php");
 	    }
 	    
 	    // Free the statement identifier when closing the connection
