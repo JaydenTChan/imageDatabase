@@ -44,16 +44,16 @@
         <nav>
             
             <!-- change location to correct location -->
-            <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.php'" class="button"><br>
                             
             <!-- Only shows this if account is "admin" -->
-            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.php'" class="button"><br>
                                 
-            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
                                             
                                             
@@ -88,8 +88,8 @@
                         <p>
                         
                         <!-- Change a href to view current user and image name -->
-                        <a href="user.html">View My Profile</a> |
-                        <a href="viewimage.html">View Image</a> |
+                        <a href="user.php">View My Profile</a> |
+                        <a href="viewimage.php">View Image</a> |
                         <a href="deleteimage.php">Remove Image</a>
                         <!-- Need to make deleimage.php -->
                         </p>
@@ -97,7 +97,7 @@
                         <hr>
                         
                         <!-- Change action -->
-                        <form name="editImage" method="POST" action="editimage.html">
+                        <form name="editImage" method="POST" action="editimage.php">
                             <table>
                                 <tbody>
                                     <tr>

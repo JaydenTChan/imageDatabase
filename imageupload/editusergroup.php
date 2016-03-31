@@ -44,17 +44,18 @@
         <nav>
             
             <!-- change location to correct location -->
-            <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.php'" class="button"><br>
                             
             <!-- Only shows this if account is "admin" -->
-            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.php'" class="button"><br>
                                 
-            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
+                                            
                                             
         </nav>
         
@@ -65,35 +66,46 @@
             <html>
                 
                 <head>
-                    <title>Group Management</title>
+                    
                 </head>
                 
                 <body>
                     
                     <div class="content">
                         
-                        <p class="pageTitle">Group Management</p>
+                        <p class="pageTitle">Add/Remove Users To/From Groups</p>
                         
                         <hr>
                         
-                        <!-- TODO: Change action to spl php -->
-                        <form name="GroupManagement" action="GroupManagement" method="post">
+                        <!-- action to php/jsp file -->
+                        <form name="UserManagement" action="UserManagement" method="post">
                             <table>
                                 <tbody>
                                     <tr>
-                                        <th>Group Name: <span class="requiredField">*</span></th>
-                                        <td><input type="text" maxlength="24" size="24" name="groupname"></td>
+                                        <th>Group name: <span class="requiredField">*</span></th>
+                                        <td>
+                                            <select name="groups">
+                                                <c:forEach items="${groups}" var="group">
+                                                    <option value="${group[0]}">${group[1]}</option>
+                                                    </c:forEach>
+                                                    </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Username: <span class="requiredField">*</span></th>
+                                        <td>
+                                            <input type="text" maxlength="24" name="username">
+                                                </td>
                                     </tr>
                                     <tr>
                                         <th></th>
                                         <td>
-                                            
-                                            <input type="submit" name="submit" value="Create">
-                                            <input type="submit" name="submit" value="Delete">
+                                            <input type="submit" name="submit" value="Add">
+                                            <input type="submit" name="submit" value="Remove">
                                                 
-                                            <!-- Change onclick location -->
-                                            <input type="button" value="Cancel" onclick="location.href='user.html'">
-                                        </td>
+                                            
+                                            <input type="button" value="Cancel" onclick="location.href='user.php'">
+                                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -67,7 +67,7 @@ include("PHPconnectionDB.php");
 		echo "window.location.href = \"../login.html\";";
 		echo "</script>";
 	    }else{
-		header("Location: ../home.html");
+		header("Location: ../home.php");
 	    }
 	    
 	    // Free the statement identifier when closing the connection

@@ -44,16 +44,16 @@
         <nav>
             
             <!-- change location to correct location -->
-            <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.php'" class="button"><br>
                             
                             <!-- Only shows this if account is "admin" -->
-            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.php'" class="button"><br>
                                 
-            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
                                             
                                         
@@ -115,7 +115,7 @@
                         
                         <p class="pageTitle">Groups:</p>
                         
-                        <a href="group.html">Create/Delete Groups</a> | <a href="editusergroup.html">Add/Remove Users To/From Groups</a>
+                        <a href="group.php">Create/Delete Groups</a> | <a href="editusergroup.php">Add/Remove Users To/From Groups</a>
                         
                         <p>
                         <table>
@@ -141,8 +141,8 @@
                         
                         <p class="pageTitle">Images:</p>
                         
-                        <a href="upload.html">Upload Single Image</a> |
-                        <a href="uploadmulti.html">Upload Multiple Images</a>
+                        <a href="upload.php">Upload Single Image</a> |
+                        <a href="uploadmulti.php">Upload Multiple Images</a>
                         <br><br>
                         <table>
                             <tbody>

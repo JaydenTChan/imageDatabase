@@ -13,6 +13,7 @@ function getres($sql,$conn) {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -60,7 +61,8 @@ function getres($sql,$conn) {
             
             <!-- change location to correct location -->
             <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.php'" class="button"><br>
+	    <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.php'" class="button"><br>
+
             <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
                             
             <!-- Only shows this if account is "admin" -->
@@ -70,7 +72,6 @@ function getres($sql,$conn) {
             <?php } ?>
             	
             
-                
             <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
@@ -104,6 +105,7 @@ function getres($sql,$conn) {
                     <div class="content">
                         <p>
                         <a href="uploadmulti.php">Upload Multiple Images</a>
+
                         </p>
                         
                         <hr>
@@ -117,11 +119,13 @@ function getres($sql,$conn) {
                                 </tr>
                                 <tr>
                                     <th>Subject: </th>
+
                                     <td><input name="subject" size="50" maxlength="128" type="text"></td>
                                 </tr>
                                 <tr>
                                     <th>Place: </th>
                                     <td><input name="place" size="50" maxlength="128" type="text"></td>
+
                                 </tr>
                                 <tr>
                                     <th>Date: </th>
@@ -132,15 +136,19 @@ function getres($sql,$conn) {
                                 </tr>
                                 <tr>
                                     <th>Description: </th>
+
                                     <td><textarea name="description" id="description" rows="4" cols="57" maxlength="2048"></textarea></td>
+
                                 </tr>
                                 <tr>
                                     <th>Access: <span class="requiredField">*</span></th>
                                     <td>
                                         <select name="access">
+
                                             <?php 
                                             	getres("select distinct group_id from groups",$conn);
                                             	?>
+
                                                 </select>
                                     </td>
                                 </tr>

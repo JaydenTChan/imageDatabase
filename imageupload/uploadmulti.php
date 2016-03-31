@@ -44,16 +44,16 @@
         <nav>
             
             <!-- change location to correct location -->
-            <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.php'" class="button"><br>
                             
             <!-- Only shows this if account is "admin" -->
-            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.php'" class="button"><br>
                                 
-            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.html'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.html'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
+            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
                                             
         </nav>
@@ -83,7 +83,7 @@
                     
                     <div class="content">
                         <p>
-                        <a href="upload.html">Upload Single Images</a>
+                        <a href="upload.php">Upload Single Images</a>
                         </p>
                         
                         <hr>
@@ -97,7 +97,7 @@
                                 </tr>
                                 <tr>
                                     <th>Subject: </th>
-                                    <td><input name="subject" id="subject" size="50" maxlength="128" type="text"></td>
+                                    <td><input name="subject" size="50" maxlength="128" type="text"></td>
                                 </tr>
                                 <tr>
                                     <th>Place: </th>
@@ -126,7 +126,7 @@
                                 </tr>
                                 <tr>
                                     <th></th>
-                                    <td><br><input name=".submit" id="SubmitR" value="Upload" type="submit"></td>
+                                    <td><br><input name=".submit" value="Upload" type="submit"></td>
                                 </tr>
                                 </tbody>
                             </table>

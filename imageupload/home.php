@@ -1,6 +1,8 @@
+
 <?php
 session_start();
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -51,6 +53,7 @@ session_start();
             
             <!-- change location to correct location -->
             <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
+
             <!-- <INPUT TYPE="button" VALUE="Display" onclick="location.href='search.html'" class="button"><br> -->
             <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.html'" class="button"><br>
             <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
@@ -68,7 +71,7 @@ session_start();
                 
             <!-- Might not need it -->
             <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.html'" class="button"><br>
-                
+
             <!-- TODO: Add logout.jsp -->
             <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
             
@@ -108,9 +111,9 @@ session_start();
                     <table border="1" cellpadding="15px" cellspacing="0px" >
                         <tbody>
                             <tr>
-                               <!--<img src="test.jpg" alt="test image" style="width:304px;height:228px;">-->
-                                <a href="viewimage.html"><img src ="test.jpg" width="200px">
-                                <a href="viewimage.html"><img src ="test2.jpg" width="200px">
+                                <!--<img src="test.jpg" alt="test image" style="width:304px;height:228px;">-->
+                                <a href="viewimage.php"><img src ="test.jpg" width="200px">
+                                <a href="viewimage.php"><img src ="test2.jpg" width="200px">
 
                                     
                                     

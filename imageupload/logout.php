@@ -1,4 +1,3 @@
-
 <?php 
     if(!isset($_SESSION)) { //check if sessions has been initialized
         session_start();	//initialize session
@@ -8,3 +7,4 @@
     session_destroy();
     header("Location:login.html");
 ?>
+
