@@ -1,4 +1,0 @@
-/*INSERT*/
-
-SELECT *
-FROM users;
