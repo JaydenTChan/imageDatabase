@@ -115,7 +115,7 @@ function getres($sql,$conn) {
                             <table>
                                 <tr>
                                     <th>File path: <span class="requiredField">*</span></th>
-                                    <td><input name="imagePath" size="30" type="file"></td>
+                                    <td><input id="imagePath" datename="imagePath" size="30" type="file"></td>
                                 </tr>
                                 <tr>
                                     <th>Subject: </th>
