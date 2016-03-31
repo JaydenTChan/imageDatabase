@@ -1,3 +1,19 @@
+<?php
+session_start();
+include("php/PHPconnectionDB.php");
+$conn=connect();
+
+function getres($sql,$conn) {
+    $stid = oci_parse($conn,$sql);
+    $res = oci_execute($stid);
+    while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
+        foreach($row as$item)   {
+            echo '<option>'.$item.'</option>';
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -54,7 +70,7 @@
                                 
             <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
+            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.php'" class="button">
                                             
         </nav>
         
@@ -89,38 +105,44 @@
                         <hr>
                         
                         <!-- Change action -->
-                        <form name="uploadImage" method="POST" enctype="multipart/form-data" action="/PhotoWebApp/UploadImage">
+                        <form name="uploadImage" method="POST" enctype="multipart/form-data" action="php/uploadSingle.php">
                             <table>
                                 <tr>
                                     <th>File path: <span class="requiredField">*</span></th>
-                                    <td><input name="ImagePath" type="file" size="30" name="my_file[]" multiple></td>
+                                    <td><input id="image[]" name="image[]" size="30" type="file" multiple></td>
                                 </tr>
                                 <tr>
                                     <th>Subject: </th>
+
                                     <td><input name="subject" size="50" maxlength="128" type="text"></td>
                                 </tr>
                                 <tr>
                                     <th>Place: </th>
                                     <td><input name="place" size="50" maxlength="128" type="text"></td>
+
                                 </tr>
                                 <tr>
                                     <th>Date: </th>
                                     <td>
                                         <input name="date" id="date" class="date-picker" maxlength="10"/>
-                                        <span class="formHintText">(dd/MM/yyyy)</span>
+                                        <span class="formHintText">(DD-MM-YYYY)</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Description: </th>
-                                    <td><textarea name="description" rows="4" cols="57" maxlength="2048"></textarea></td>
+
+                                    <td><textarea name="description" id="description" rows="4" cols="57" maxlength="2048"></textarea></td>
+
                                 </tr>
                                 <tr>
                                     <th>Access: <span class="requiredField">*</span></th>
                                     <td>
                                         <select name="access">
-                                            <c:forEach items="${groups}" var="group">
-                                                <option value="${group[1]}" <c:if test="${group[1]==2}">selected=true</c:if> >${group[0]}</option>
-                                                </c:forEach>
+
+                                            <?php 
+                                            	getres("select distinct group_id from groups",$conn);
+                                            	?>
+
                                                 </select>
                                     </td>
                                 </tr>
