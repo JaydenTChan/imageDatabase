@@ -170,9 +170,15 @@ function loadGroup($groupID){
 		if($count == 0){
 			//groups
 			$row = oci_fetch_row($stid);
-			echo '<p>Group Name: </p>'
+			echo '<form>';
+			echo '<label for="gname">Group Name: </label>';
+			echo '<input id="gname" type="text" name="groupName" value="'. $row[0] .'">';
+			echo '<input type="submit" value="Change">';
+			echo '</form>';
+			echo '<P>Date Created: ' . $row[1] . '</p>';
 		}else{
 			//group_lists
+			
 			
 		}
 		

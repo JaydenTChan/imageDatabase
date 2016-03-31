@@ -81,7 +81,7 @@ include("php/groupLoad.php");
                         <!-- Management Form -->
                         <?php 
                         echo '<p>Group ID: ' . $_SESSION["group"] . '</p>';
-                        
+                        loadGroup($_SESSION["group"]);
                         
                         ?>
                         
