@@ -66,12 +66,9 @@ function whatever(){
 	    
 	    //Execute a statement returned from oci_parse()
 	    $res2=oci_execute($stid2);
-	    
-	    //$number=0;	
+
 	    //echo "number of image: " .$number. "<br>";
 	    while ($row=oci_fetch_array($stid2,OCI_BOTH)){
-	    	//echo "good";
-	    	//$number++;
 	    	$photo_id= $row[0]; 
 	    	$owner_name=$row[1];
 	    	$permitted=$row[2];

@@ -9,7 +9,6 @@ include("PHPconnectionDB.php");
 include("index.php");
 
 function search($k_words, $fr_date, $to_date, $sort){
-	indexImages();
 	
 	ini_set('display_errors', 1);
 	error_reporting(E_ALL);
@@ -90,27 +89,24 @@ function search($k_words, $fr_date, $to_date, $sort){
 
 
 	//if error, retrieve the error using the oci_error() function & output an error message
-
+	$gotOne = 0;
+	
 	if (!$res) {
-	$err = oci_error($stid); 
-	echo htmlentities($err['message']);
+		$err = oci_error($stid); 
+		echo htmlentities($err['message']);
+	}else{
+		while($row = oci_fetch_row($stid)){
+			//Loop through all results
+				$gotOne = 1;
+				echo "got image!";
+				echo '<a href="viewimage.php?id='.$row[0].'&type=photo"><img src ="php/getFullImage.php?id='.$row[0].'&type=photo" width="200px" length="200px" height="200px"/> </a>';
+		}
 	}
-	else{
-	$row = oci_fetch_row($stid);
-	if ($row == true){
-		echo "got image!";
-	}else {
-	//Source: http://stackoverflow.com/questions/13851528/how-to-pop-an-alert-message-box-using-php
-	//Source: http://stackoverflow.com/questions/19825283/redirect-to-a-page-url-after-alert-button-is-pressed
-		$message = "Something went wrong";
-		echo "<script type='text/javascript'>";
-		echo "alert('$message');";
-		echo "</script>";
-
+	
+	if($gotOne == 0){
+		echo "No results found";
 	}
-
-	}
-
+	
 	// Free the statement identifier when closing the connection
 	oci_free_statement($stid);
 	oci_close($conn);	

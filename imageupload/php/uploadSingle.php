@@ -129,7 +129,7 @@ include("index.php");
 	}	
       oci_close($conn);
       
-      //indexImages();
+      indexImages();
      
 ?>
     </body>
