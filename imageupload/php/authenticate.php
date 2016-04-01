@@ -44,7 +44,7 @@ include("PHPconnectionDB.php");
 			$row = oci_fetch_row($stid);
 			if ($row == true){
 				$_SESSION["user"]=$row[0];//Save the user name
-				header("Location: getSession.php");
+				header("Location: ../home.php");
 			}else {
 			//Source: http://stackoverflow.com/questions/13851528/how-to-pop-an-alert-message-box-using-php
 			//Source: http://stackoverflow.com/questions/19825283/redirect-to-a-page-url-after-alert-button-is-pressed

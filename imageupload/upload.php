@@ -1,9 +1,9 @@
 <?php
 session_start();
 include("php/PHPconnectionDB.php");
-$conn=connect();
 
-function getres($sql,$conn) {
+function getres($sql) {
+    $conn=connect();
     $stid = oci_parse($conn,$sql);
     $res = oci_execute($stid);
     while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
@@ -11,6 +11,9 @@ function getres($sql,$conn) {
             echo '<option>'.$item.'</option>';
         }
     }
+    oci_free_statement($stid);
+    oci_close($conn);
+    return;
 }
 ?>
 
@@ -66,6 +69,7 @@ function getres($sql,$conn) {
             <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
                             
             <!-- Only shows this if account is "admin" -->
+            <?php 
             	if ($_SESSION["user"] == "admin") { ?>
             	<INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.php'" class="button"><br>
             <?php } ?>
@@ -73,7 +77,7 @@ function getres($sql,$conn) {
             
             <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
+            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.php'" class="button">
                                             
                             
         </nav>

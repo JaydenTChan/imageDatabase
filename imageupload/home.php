@@ -1,79 +1,45 @@
 <?php
 session_start();
 include("php/PHPconnectionDB.php");
-$conn=connect();
-function getres($sql,$conn) {
-    $stid = oci_parse($conn,$sql);
-    $res = oci_execute($stid);
-    while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
-        foreach($row as$item)   {
-            echo '<option>'.$item.'</option>';
-        }
-    }
-}
-	      
-		if (!$conn) {
-    		$e = oci_error();
-    		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-	    }
-		$user=$_SESSION['user'];
-			//echo "hello $user";
-			
-		//$sql='select * from images where owner_name=\''.$user.'\' AND photo_id=\'819741609\'';
-		$sql='select * from images where owner_name=\''.$user.'\'';
-		//echo $sql;
-	    //Prepare sql using conn and returns the statement identifier
-	    $stid = oci_parse($conn, $sql);
-	    
-	    //Execute a statement returned from oci_parse()
-	    $res=oci_execute($stid);
-	    
-	    $number=0;
-	    
-	    while ($row=oci_fetch_array($stid,OCI_BOTH)){
-	    	//echo "good";
-	    	$number++;
-	    	$photo_id= $row[0]; 
-	    	$owner_name=$row[1];
-	    	$permitted=$row[2];
-	    	$subject=$row[3];
-	    	$place=$row[4];
-	    	$date=$row[5];
-	    	$description=$row[6];
-	    	$thumbnail=$row[7];
-	    	$photo=$row[8];
-	    	}
-	    	
-	    //$sql1='select * from images where owner_name=\''.$user.'\' AND photo_id=\'819741609\'';
-	    $sql1='select count(*) from images where owner_name=\''.$user.'\'';
-	    $stmt = oci_parse ($conn, $sql1);
-	    $items=oci_execute($stmt);
-	    echo "hu $items";
 
-        //$arr = oci_fetch_array($stmt, OCI_ASSOC);
-                            	
-	    /*$sql1='select * from users where user_name=\''.$user.'\'';
-	    
-	    //Prepare sql using conn and returns the statement identifier
-	    $stid1 = oci_parse($conn, $sql1);
-	    
-	    //Execute a statement returned from oci_parse()
-	    $res1=oci_execute($stid1);
-	    
-	    while ($row=oci_fetch_array($stid1,OCI_BOTH)){
-	    	//echo "good <br>";
-	    	$password=$row[1];
-	    	//echo "pas --" .$password. " --  <br>";
-	    }*/
-	    	
-	    
-	    //$row=oci_fetch_array($stid,OCI_BOTH)
-	    //oci_free_statement($stid1);
-	    	
-	    oci_free_statement($stmt);
-	    //$row=oci_fetch_array($stid,OCI_BOTH)
-	    oci_free_statement($stid);
-	    oci_close($conn);
+$conn=connect();
+if (!$conn) {
+	$e = oci_error();
+	trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+$user=$_SESSION['user'];
+$sql='select * from images where owner_name=\''.$user.'\'';
+//echo $sql;
+//Prepare sql using conn and returns the statement identifier
+$stid = oci_parse($conn, $sql);
+
+//Execute a statement returned from oci_parse()
+$res=oci_execute($stid);
+
+$number=0;
+
+while ($row=oci_fetch_array($stid,OCI_BOTH)){
+//echo "good";
+	$number++;
+	$photo_id= $row[0]; 
+	$owner_name=$row[1];
+	$permitted=$row[2];
+	$subject=$row[3];
+	$place=$row[4];
+	$date=$row[5];
+	$description=$row[6];
+	$thumbnail=$row[7];
+	$photo=$row[8];
+}
+
+$sql1='select count(*) from images where owner_name=\''.$user.'\'';
+$stmt = oci_parse ($conn, $sql1);
+$items=oci_execute($stmt);
+echo "hu $items";
+
+oci_free_statement($stmt);
+oci_free_statement($stid);
+oci_close($conn);
 
 ?>
 
@@ -147,7 +113,7 @@ function getres($sql,$conn) {
             <!-- Might not need it -->
             <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
 
-            <!-- TODO: Add logout.jsp -->
+            <!-- TODO: Add logout.php -->
             <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.php'" class="button">
             
                 

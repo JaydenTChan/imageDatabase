@@ -1,8 +1,7 @@
 <?php
 //Start the session
 session_start();
-include("PHPconnectionDB.php");
-include("searchFunctions.php");
+include("php/searchFunctions.php");
 ?>
 
 <!DOCTYPE html>
@@ -93,7 +92,7 @@ include("searchFunctions.php");
                         
                         <hr/>
                         
-                        <form name="Search" method="POST" action="Search">
+                        <form name="SearchForm" method="POST">
                             <table>
                                 <tr>
                                     <th colspan="2">Search parameters:</th>
@@ -121,15 +120,18 @@ include("searchFunctions.php");
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td ALIGN=CENTER COLSPAN="2"><input type="submit" name=".submit" value="Search"></td>
+                                    <td ALIGN=CENTER COLSPAN="2">
+                                    <input type="submit" name="search" value="Search">
+                                    </td>
                                 </tr>
                             </table>
                             </div>
                     	</form>
 			<?php
+			if(isset($_POST['search'])){
 				search($_POST['keywords'],$_POST['fromDate'],
 				$_POST['toDate'],$_POST['SortBy']);
-				
+			}
 			?>
 
                 </body> 

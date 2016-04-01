@@ -241,22 +241,11 @@ function whatever(){
                                     <th>Members</th>
                                 </tr>
                                 	<tr>
-                                		<?php 
-                                            getres("select distinct group_id from groups",$conn);
+                                	<?php
+                                	getres("select distinct group_id from groups",$conn);
                                        	?>
                                 	</tr>
-                                	
-                                
-                                <!-- <c:forEach items="${groups}" var="group" varStatus="groupLoop">
-                                    <tr>
-                                        <td>${group}</td>
-                                        <td>
-                                            <c:forEach items="${groupMembers[groupLoop.index]}" var="member">
-                                                ${member}  &nbsp;
-                                                </c:forEach>
-                                                </td>
-                                    </tr>
-                                    </c:forEach> -->
+
                                     </tbody>
                         </table>
                         </p>
@@ -270,25 +259,8 @@ function whatever(){
                         <table>
                             <tbody>
                                 <tr>
-                                	<?php
-                            			//echo "User: " .$user. "<br>";
-                            			//echo "Photo_id: " .$photo_id. "<br>";
-                            	
-                            			//echo '<img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="600px"/>';				
-                            			//echo "number of image: " .$number. "<br>";
-                            			/*for($i=$number; $i>0; $i--) {
-											echo '<a href="viewimage.php?id='.$photo_id.'&type=photo" target="_blank"><img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="200px" length="200px" height="200px"/></a>';
-										}*/
-										whatever();
-                            	
-                            ?>
-                                    <!-- Next 2 line is just for test. Not needed 
-                                    <a href="test.jpg"><img src ="test.jpg" width="200px">
-                                    <a href="test2.jpg"><img src ="test2.jpg" width="200px">
-                                    Change this to search image this account uploaded
-                                    <c:forEach items="${imageIds}" var="imageId">
-                                        <a href="/PhotoWebApp/ViewImage?${imageId}"><img src ="/PhotoWebApp/GetThumbnailImage?${imageId}"></a>
-                                        </c:forEach> -->
+                                	<?php whatever(); ?>
+
                                 </tr>
                             </tbody>
                         </table>
