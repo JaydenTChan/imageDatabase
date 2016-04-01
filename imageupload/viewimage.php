@@ -103,7 +103,10 @@ function getres($sql,$conn) {
                         <p>
 
                             <?php 
-                            	echo '<a href="user.php">View My Profile</a> | <a href="editimage.php?id='.$photo_id.'&type=photo">Edit Image</a> | <a href="php/deleteimage.php?id='.$photo_id.'&type=photo">Remove Image</a>';
+                            	//echo $owner_name; 
+                            	//echo $_SESSION['user'];
+                            	echo '<a href="user.php">View My Profile</a> ';
+            	if ($_SESSION["user"] == $owner_name || $_SESSION["user"] == 'admin' ) { echo '| <a href="editimage.php?id='.$photo_id.'&type=photo">Edit Image</a> | <a href="php/deleteimage.php?id='.$photo_id.'&type=photo">Remove Image</a>';}
                             ?>
                     
                             </p>
