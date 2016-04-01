@@ -59,13 +59,7 @@ function whatever(){
 		$user=$_SESSION['user'];	
 		$photo_id = $_GET['id'];
 	    //$sql='select * from images where owner_name=\''.$user.'\' AND photo_id=\'819741609\'';
-	   
-	   if ($_SESSION["user"] == "admin") {
-		$sql2='select * from images';
-		} else {
 		$sql2='select * from images where owner_name=\''.$user.'\'';
-		}
-		
 		//echo $sql;
 	    //Prepare sql using conn and returns the statement identifier
 	    $stid2 = oci_parse($conn, $sql2);
@@ -246,7 +240,11 @@ function whatever(){
                     	friend_id =  '" .$_SESSION["user"]. "') OR
                     	(user_name = '" .$_SESSION["user"]. "')
                     	");
-                           	?>
+                        
+                        if ($_SESSION["user"] == 'admin'){
+	                        echo "private";
+                        }   	
+                        ?>
 
                         </p>
                         <form action="group.php">
@@ -254,7 +252,7 @@ function whatever(){
                         </form>
                         
                         
-                        <p class="pageTitle">Images:</p>
+                        <h1>Images by this user:</h1>
                         
                         <a href="upload.php">Upload Single Image</a> |
                         <a href="uploadmulti.php">Upload Multiple Images</a>

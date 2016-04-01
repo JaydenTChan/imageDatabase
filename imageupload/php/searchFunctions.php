@@ -55,7 +55,8 @@ function search($k_words, $fr_date, $to_date, $sort){
 	OR CONTAINS(description, '".$k_words."', 3) > 0)
 	AND (
 	('".$_SESSION["user"]."' = friend_id AND group_id = permitted)
-	OR ('".$_SESSION["user"]."' = owner_name)) AND
+	OR 
+	('".$_SESSION["user"]."' = owner_name)) AND
 	timing >= TO_DATE('".$fr_date."', 'DD-MM-YYYY') AND
 	timing <= TO_DATE('".$to_date."', 'DD-MM-YYYY')
 	ORDER BY timing DESC",
@@ -73,7 +74,7 @@ function search($k_words, $fr_date, $to_date, $sort){
 	timing <= TO_DATE('".$to_date."', 'DD-MM-YYYY')
 	ORDER BY (6*score(1) + 3*score(2) + score(3)) DESC",
 	"
-	SELECT photo_id FROM images, group_lists
+	SELECT UNIQUE photo_id FROM images, group_lists
 	WHERE
 	(('" .$_SESSION["user"]. "' = friend_id AND group_id = permitted)
 	OR ('" .$_SESSION["user"]. "' = owner_name)) AND
@@ -81,7 +82,7 @@ function search($k_words, $fr_date, $to_date, $sort){
 	timing <= TO_DATE('" . $to_date . "', 'DD-MM-YYYY')
 	",
 	"
-	SELECT photo_id FROM images, group_lists
+	SELECT UNIQUE photo_id, timing FROM images, group_lists
 	WHERE(
 	('".$_SESSION["user"]."' = friend_id AND group_id = permitted)
 	OR ('".$_SESSION["user"]."' = owner_name)) AND
@@ -90,36 +91,109 @@ function search($k_words, $fr_date, $to_date, $sort){
 	ORDER BY timing ASC
 	",
 	"
-	SELECT photo_id FROM images, group_lists
+	SELECT UNIQUE photo_id, timing FROM images, group_lists
 	WHERE(
 	('".$_SESSION["user"]."' = friend_id AND group_id = permitted)
 	OR ('".$_SESSION["user"]."' = owner_name)) AND
 	timing >= TO_DATE('" . $fr_date . "', 'DD-MM-YYYY') AND
 	timing <= TO_DATE('" . $to_date . "', 'DD-MM-YYYY')
 	ORDER BY timing DESC
+	",
 	"
+	SELECT UNIQUE photo_id FROM images, group_lists
+	WHERE
+	(CONTAINS(subject, '".$k_words."', 1) > 0 
+	OR CONTAINS(place, '".$k_words."', 2) > 0
+	OR CONTAINS(description, '".$k_words."', 3) > 0) AND
+	timing >= TO_DATE('" . $fr_date . "', 'DD-MM-YYYY') AND
+	timing <= TO_DATE('" . $to_date . "', 'DD-MM-YYYY')
+	",
+	"
+	SELECT UNIQUE photo_id, timing FROM images, group_lists
+	WHERE
+	(CONTAINS(subject, '".$k_words."', 1) > 0 
+	OR CONTAINS(place, '".$k_words."', 2) > 0
+	OR CONTAINS(description, '".$k_words."', 3) > 0) AND
+	timing >= TO_DATE('" . $fr_date . "', 'DD-MM-YYYY') AND
+	timing <= TO_DATE('" . $to_date . "', 'DD-MM-YYYY')
+	ORDER BY timing ASC
+	",
+	"
+	SELECT UNIQUE photo_id, timing FROM images, group_lists
+	WHERE
+	(CONTAINS(subject, '".$k_words."', 1) > 0 
+	OR CONTAINS(place, '".$k_words."', 2) > 0
+	OR CONTAINS(description, '".$k_words."', 3) > 0) AND
+	timing >= TO_DATE('" . $fr_date . "', 'DD-MM-YYYY') AND
+	timing <= TO_DATE('" . $to_date . "', 'DD-MM-YYYY')
+	ORDER BY timing DESC
+	",
+	"
+	SELECT UNIQUE photo_id FROM images, group_lists
+	WHERE
+	timing >= TO_DATE('" . $fr_date . "', 'DD-MM-YYYY') AND
+	timing <= TO_DATE('" . $to_date . "', 'DD-MM-YYYY')
+	",
+	"
+	SELECT UNIQUE photo_id, timing FROM images, group_lists
+	WHERE
+	timing >= TO_DATE('" . $fr_date . "', 'DD-MM-YYYY') AND
+	timing <= TO_DATE('" . $to_date . "', 'DD-MM-YYYY')
+	ORDER BY timing ASC
+	",
+	"
+	SELECT UNIQUE photo_id, timing FROM images, group_lists
+	WHERE
+	timing >= TO_DATE('" . $fr_date . "', 'DD-MM-YYYY') AND
+	timing <= TO_DATE('" . $to_date . "', 'DD-MM-YYYY')
+	ORDER BY timing DESC
+	"
+	
+	
 	);
 
 	//
 
 	//Prepare sql using conn and returns the statement identifier
-	if ($k_words==""){
-		//Get all images!
-		$stid = oci_parse($conn, $sql[3]);
-		if($sort == 'New'){
-			$stid = oci_parse($conn, $sql[4]);
-		}else if($sort == 'Old'){
-			$stid = oci_parse($conn, $sql[5]);
-		}
-	}else{
-		if($sort == 'New'){
-			$stid = oci_parse($conn, $sql[0]);
-		}else if($sort == 'Old'){
-			$stid = oci_parse($conn, $sql[1]);
+	if ($_SESSION["user"] == 'admin'){
+	//Admin statements
+		if ($k_words==""){
+			//Get all images!
+			$stid = oci_parse($conn, $sql[9]);
+			if($sort == 'New'){
+				$stid = oci_parse($conn, $sql[10]);
+			}else if($sort == 'Old'){
+				$stid = oci_parse($conn, $sql[11]);
+			}
 		}else{
-			$stid = oci_parse($conn, $sql[2]);
+			if($sort == 'New'){
+				$stid = oci_parse($conn, $sql[6]);
+			}else if($sort == 'Old'){
+				$stid = oci_parse($conn, $sql[7]);
+			}else{
+				$stid = oci_parse($conn, $sql[8]);
+			}
+		}	
+	
+	}else{
+		if ($k_words==""){
+			//Get all images!
+			$stid = oci_parse($conn, $sql[3]);
+			if($sort == 'New'){
+				$stid = oci_parse($conn, $sql[4]);
+			}else if($sort == 'Old'){
+				$stid = oci_parse($conn, $sql[5]);
+			}
+		}else{
+			if($sort == 'New'){
+				$stid = oci_parse($conn, $sql[0]);
+			}else if($sort == 'Old'){
+				$stid = oci_parse($conn, $sql[1]);
+			}else{
+				$stid = oci_parse($conn, $sql[2]);
+			}
 		}
-	}	
+	}
 
 	//Execute a statement returned from oci_parse()
 	$res=oci_execute($stid);
