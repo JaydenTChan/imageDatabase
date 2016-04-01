@@ -66,7 +66,6 @@ function getres($sql,$conn) {
             <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
                             
             <!-- Only shows this if account is "admin" -->
-            <?php 
             	if ($_SESSION["user"] == "admin") { ?>
             	<INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.php'" class="button"><br>
             <?php } ?>

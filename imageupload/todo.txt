@@ -3,8 +3,8 @@ TODO by Priority
 //Must do by thursday
 //1. Fix Upload to work properly
 //	-None of it works correctly
-2. Make sure groups work
-	-Most of the framework is available
+//2. Make sure groups work
+//	-Most of the framework is available
 3. Display Module/Search Module
 	-Need to make this from scratch
 	-May potentially hitch onto the search module

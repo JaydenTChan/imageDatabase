@@ -13,9 +13,9 @@ function indexImages(){
 		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 	}
 	$sql = array(
-	'CREATE INDEX subjectIndex ON images(subject) INDEXTYPE IS CTXSYS.CONTEXT',
-	'CREATE INDEX placeIndex ON images(place) INDEXTYPE IS CTXSYS.CONTEXT',
-	'CREATE INDEX descriptionIndex ON images(description) INDEXTYPE IS CTXSYS.CONTEXT');
+	'ALTER INDEX subjectIndex REBUILD',
+	'ALTER INDEX placeIndex REBUILD',
+	'ALTER INDEX descriptionIndex REBUILD');
 
 	for ($counter = 1; $counter < 4; $counter++){
 		//Prepare sql using conn and returns the statement identifier

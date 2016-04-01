@@ -193,9 +193,9 @@ function getres($sql,$conn) {
                             </tbody>
                         </table>
                         
-                        <p class="pageTitle">Groups:</p>
-                        
-                        <a href="group.php">Create/Delete Groups</a> | <a href="editusergroup.php">Add/Remove Users To/From Groups</a>
+                        <form action="group.php">
+	                        <input type="submit" value="Groups"><br>
+                        </form>
                         
                         <p>
                         <table>

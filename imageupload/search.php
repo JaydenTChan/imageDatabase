@@ -2,7 +2,7 @@
 //Start the session
 session_start();
 include("PHPconnectionDB.php");
-include("index.php");
+include("searchFunctions.php");
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +54,6 @@ include("index.php");
             <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.php'" class="button"><br>
                             
             <!-- Only shows this if account is "admin" -->
             <?php 
@@ -128,97 +127,10 @@ include("index.php");
                             </div>
                     	</form>
 			<?php
-				if (isset ($_POST['Search'])){
-				    indexImages();
+				search($_POST['keywords'],$_POST['fromDate'],
+				$_POST['toDate'],$_POST['SortBy']);
 				
-				    //get the input
-				    $k_words=$_POST['keywords'];
-				    $fr_date=$_POST['fromDate'];
-				    $to_date=$_POST['toDate'];
-				    $sort=$_POST['SortBy'];
-			
-				    ini_set('display_errors', 1);
-				    error_reporting(E_ALL);
-				    
-				    //establish connection
-				    $conn=connect();
-				    if (!$conn) {
-			    		$e = oci_error();
-			    		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-				    }
-				    
-				    //Add ands
-				    $k_words = str_replace(' ', ' AND ', $k_words);
-			 	
-				    //sql command
-				    
-				    $sql = array(
-				    '
-				    SELECT photo_id FROM images 
-				    WHERE CONTAINS(subject, \'' . $k_words . '\', 1) > 0 
-				    OR CONTAINS(place, \'' . $k_words . '\', 2) > 0
-				    OR CONTAINS(description, \'' . $k_words . '\', 3) > 0
-				    ORDER BY timing ASC',
-				    '
-				    SELECT photo_id FROM images 
-				    WHERE CONTAINS(subject, \'' . $k_words . '\', 1) > 0 
-				    OR CONTAINS(place, \'' . $k_words . '\', 2) > 0
-				    OR CONTAINS(description, \'' . $k_words . '\', 3) > 0
-				    ORDER BY timing DESC',
-				    '
-				    SELECT photo_id FROM images 
-				    WHERE CONTAINS(subject, \'' . $k_words . '\', 1) > 0 
-				    OR CONTAINS(place, \'' . $k_words . '\', 2) > 0
-				    OR CONTAINS(description, \'' . $k_words . '\', 3) > 0
-				    ORDER BY (6*score(1) + 3*score(2) + score(3)) DESC'
-				    );
-				    
-				    //
-				    
-				    //Prepare sql using conn and returns the statement identifier
-				    if($sort == 'New'){
-				    	$stid = oci_parse($conn, $sql[0]);
-			    	    }else if($sort == 'Old'){
-			    	    	$stid = oci_parse($conn, $sql[1]);
-			    	    }else{
-			    	    	$stid = oci_parse($conn, $sql[2]);
-			    	    }
-				    
-				    //Execute a statement returned from oci_parse()
-				    $res=oci_execute($stid);
-
-				    
-				    //if error, retrieve the error using the oci_error() function & output an error message
-
-				    if (!$res) {
-					$err = oci_error($stid); 
-					echo htmlentities($err['message']);
-		
-				    }
-				    else{
-						$row = oci_fetch_row($stid);
-						if ($row == true){
-							$_SESSION["user"]=$row[0];//Save the user name
-							header("Location: getSession.php");
-						}else {
-						//Source: http://stackoverflow.com/questions/13851528/how-to-pop-an-alert-message-box-using-php
-						//Source: http://stackoverflow.com/questions/19825283/redirect-to-a-page-url-after-alert-button-is-pressed
-							$message = "Incorrect username/password";
-							echo "<script type='text/javascript'>";
-							echo "alert('$message');";
-							echo "window.location.href = \"../login.html\";";
-							echo "</script>";
-				
-						}
-		
-				    }
-				    
-				    // Free the statement identifier when closing the connection
-				    oci_free_statement($stid);
-				    oci_close($conn);
-			    
-				}
-				?>
+			?>
 
                 </body> 
             </html>

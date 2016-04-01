@@ -65,7 +65,8 @@ function getUserGroups(){
 	}
 	
 	//Get the groups where the owner is part of a group
-	$sql = 'SELECT group_id, group_name FROM group_lists, groups 
+	$sql = '
+	SELECT group_lists.group_id, group_name FROM group_lists, groups 
 	WHERE friend_id = user_name
 	AND friend_id = \'' . $_SESSION["user"] . '\'';
 
@@ -79,14 +80,13 @@ function getUserGroups(){
 		$message = "Server busy";
 		echo "<script type='text/javascript'>";
 		echo "alert('$message');";
-		echo "window.location.href = \"../login.html\";";
 		echo "</script>";
 	}else{
 		echo "<select name=\"groupList\">";
 		
 		while($row = oci_fetch_row($stid)){
 			//Loop until no more rows
-			echo "<option value=" . $row[0] . ">" . $row[2] . "</option>";
+			echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
 		}
 		echo "</select>";
 	}
@@ -175,11 +175,11 @@ function loadGroup($groupID){
 		if($count == 0){
 			//groups
 			$row = oci_fetch_row($stid);
-			echo '<form>';
+			echo '<form method="post">';
 			echo '<P>Owner: ' .$row[2]. '</P>';
 			echo '<label for="gname">Group Name: </label>';
 			echo '<input id="gname" type="text" name="groupName" value="'. $row[0] .'">';
-			echo '<input type="submit" value="Change">';
+			echo '<input type="submit" value="Change" name="change">';
 			echo '</form>';
 			echo '<P>Date Created: ' . $row[1] . '</p>';
 		}else{
@@ -216,6 +216,40 @@ function saveGroup($groupID, $groupName){
 	SET group_name = $groupName
 	WHERE group_id = ' . $groupID . ''
 	*/
+		//establish connection
+	$conn=connect();
+	if (!$conn) {
+		$e = oci_error();
+		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+	}
+	$sql = '
+	UPDATE groups
+	SET group_name = \'' .$groupName. '\'
+	WHERE group_id = ' . $groupID . '';
+
+	//Prepare sql using conn and returns the statement identifier
+	$stid = oci_parse($conn, $sql);
+	//Execute a statement returned from oci_parse()
+	$res=oci_execute($stid);
+
+	if (!$res) {
+		//Error Message
+		$message = "Failed to save";
+		echo "<script type='text/javascript'>";
+		echo "alert('$message');";
+		echo "</script>";
+	}else{
+		
+	}
+
+	
+	// Free the statement identifier when closing the connection
+	oci_free_statement($stid);
+	oci_close($conn);
+	
+	header("Refresh:0");
+	
+	return;
 }
 
 function addFriendToGroup($groupID, $friendID){

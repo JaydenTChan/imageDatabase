@@ -10,6 +10,12 @@ DROP TABLE groups;
 DROP TABLE persons;
 DROP TABLE users;
 
+/* Indexes Not part of original setup.sql*/
+DROP INDEX subjectIndex;
+DROP INDEX placeIndex;
+DROP INDEX descriptionIndex;
+/* End of New Changes */
+
 
 CREATE TABLE users (
    user_name varchar(24),
