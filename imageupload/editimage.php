@@ -1,6 +1,54 @@
 <?php
-//Start the session
 session_start();
+include("php/PHPconnectionDB.php");
+$conn=connect();
+function getres($sql,$conn) {
+    $stid = oci_parse($conn,$sql);
+    $res = oci_execute($stid);
+    while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
+        foreach($row as$item)   {
+            echo '<option>'.$item.'</option>';
+        }
+    }
+}
+	      
+		if (!$conn) {
+    		$e = oci_error();
+    		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+	    }
+	    
+		$user=$_SESSION['user'];
+		$photo_id = $_GET['id'];
+			//echo "hello $user";
+			
+	    $sql='select * from images where owner_name=\''.$user.'\' AND photo_id=\''.$photo_id.'\'';
+			//echo $sql;
+	    //Prepare sql using conn and returns the statement identifier
+	    $stid = oci_parse($conn, $sql);
+	    
+	    //Execute a statement returned from oci_parse()
+	    $res=oci_execute($stid);
+	    
+	    while ($row=oci_fetch_array($stid,OCI_BOTH)){
+	    	//echo "good";
+	    	$photo_id= $row[0]; 
+	    	$owner_name=$row[1];
+	    	$permitted=$row[2];
+	    	$subject=$row[3];
+	    	$place=$row[4];
+	    	$date=strtotime($row[5]);
+	    	$newdate=date('d-m-Y', $date);
+	    	$description=$row[6];
+	    	$thumbnail=$row[7];
+	    	$photo=$row[8];
+	    }
+
+	    	
+	    
+	    //$row=oci_fetch_array($stid,OCI_BOTH)
+	    oci_free_statement($stid);
+	    oci_close($conn);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -81,7 +129,7 @@ session_start();
                     <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/jquery-ui.css">
                     <script type="text/javascript">
                         $(function(){
-                        $("#date").datepicker({dateFormat:"dd/mm/yy"});
+                        $("#date").datepicker({dateFormat:"dd-mm-yy"});
                         });
                     </script>
                 </head>
@@ -94,59 +142,54 @@ session_start();
                         
                         <p>
                         
-                        <!-- Change a href to view current user and image name -->
-                        <a href="user.php">View My Profile</a> |
-                        <a href="viewimage.php">View Image</a> |
-                        <a href="deleteimage.php">Remove Image</a>
-                        <!-- Need to make deleimage.php -->
+                        <?php 
+                            	echo '<a href="user.php">View My Profile</a> | <a href="viewimage.php?id='.$photo_id.'&type=photo">View Image</a> | <a href="deleteimage.php?id'.$photo_id.'&type=photo">Remove Image</a>';
+                            ?>
                         </p>
                         
                         <hr>
                         
                         <!-- Change action -->
-                        <form name="editImage" method="POST" action="editimage.php">
+                        <form name="editImage" method="POST" action="php/updateeditimage.php?id=<?php echo $photo_id; ?>&type=photo">
                             <table>
                                 <tbody>
                                     <tr>
                                         <th>Subject:</th>
-                                        <td><input name="subject" size="50" maxlength="128" type="text" value="${subject}"></td>
+                                        <td><input id= "subject" name="subject" size="50" maxlength="128" type="text" value="<?php echo $subject; ?>"></td>
                                     </tr>
                                     <tr>
                                         <th>Place:</th>
-                                        <td><input name="place" size="50" maxlength="128" type="text" value="${place}"></td>
+                                        <td><input id="place" name="place" size="50" maxlength="128" type="text" value="<?php echo $place; ?>"></td>
                                     </tr>
                                     <tr>
                                         <th>Date:</th>
-                                        <td><input name="date" id="date" class="date-picker" maxlength="10" value="${date}"/>
-                                            <span class="formHintText">(DD/MON/YYY)</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Time:</th>
-                                        <td><input name="time" maxlength="5" value="${time}"/>
-                                            <span class="formHintText">(hh:mm)</span>
+                                        <td><input id="date" name="date" id="date" class="date-picker" maxlength="10" value="<?php echo $newdate; ?>"/>
+                                            <span class="formHintText">(DD-MM-YYYY)</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>Description:</th>
-                                        <td><textarea name="description" rows="4" cols="57" maxlength="2048">${description}</textarea></td>
+                                        <td><textarea id="description" name="description" rows="4" cols="57" maxlength="2048"><?php echo $description; ?></textarea></td>
+                                    </tr>
+                                    <tr>
+                                        
+                                        <th><?php echo "Current Access:"; ?><span class="requiredField"></span></th>
+                                        <td>
+                                        <?php echo $permitted; ?>
+                                           
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>Access: <span class="requiredField">*</span></th>
                                         <td>
+                                        <?php //echo "Current Access :" .$permitted; ?>
                                             <select name="access">
                                                 
                                                 <!-- Change this -->
-                                                <c:forEach items="${groups}" var="group">
-                                                    <c:choose>
-                                                        <c:when test="${access == group[1]}">
-                                                            <option value="${group[1]}" selected=true>${group[0]}</option>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <option value="${group[1]}">${group[0]}</option>
-                                                                </c:otherwise>
-                                                                </c:choose>
-                                                                </c:forEach>
+                                                <?php 
+                                                    $conn = connect();
+                                            	    getres("select distinct group_id from groups",$conn);
+                                            	?>
                                                                 </select>
                                         </td>
                                     </tr>
@@ -154,7 +197,7 @@ session_start();
                                         <th></th>
                                         <td>
                                             <br><input name=".submit" value="Save" type="submit">
-                                                <input value="Cancel" type="button" onclick="location.href='ViewImage?${picId}'">
+                                                <input value="Cancel" type="button" onclick="location.href='viewimage.php?id=<?php echo $photo_id; ?>'">
                                                     </td>
                                     </tr>
                                 </tbody>
@@ -163,9 +206,13 @@ session_start();
                         
                         <!-- Change a href and img src to get the image picked
                         <p><a href="/PhotoWebApp/GetFullImage?${picId}" target="_blank"><img src ="/PhotoWebApp/GetFullImage?${picId}" ></a></p> -->
-                        
-                        <!-- delete this when top is fixed -->
-                        <p><a href="test.jpg" target="_blank"><img src ="test.jpg" width="600px"></a></p>
+                        <?php 
+                            echo "User: " .$user. "<br>";
+                           	echo "Photo_id: " .$photo_id. "<br>";
+                            echo '<a href="php/getFullImage.php?id='.$photo_id.'&type=photo"><img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="600px"/></a>';
+                        ?>
+                        <!-- delete this when top is fixed 
+                        <p><a href="test.jpg" target="_blank"><img src ="test.jpg" width="600px"></a></p> -->
                         
                         
                         

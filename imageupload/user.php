@@ -1,8 +1,10 @@
 <?php
 session_start();
 include("php/PHPconnectionDB.php");
-$conn=connect();
+
+
 function getres($sql,$conn) {
+	$conn=connect();
     $stid = oci_parse($conn,$sql);
     $res = oci_execute($stid);
     while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
@@ -11,11 +13,11 @@ function getres($sql,$conn) {
         }
     }
 }
-	      
-		if (!$conn) {
-    		$e = oci_error();
-    		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-	    }
+
+
+		$conn=connect();
+	    
+		
 			$user=$_SESSION['user'];
 			//echo "hello $user";
 			
@@ -50,16 +52,50 @@ function getres($sql,$conn) {
 	    	$password=$row[1];
 	    	//echo "pas --" .$password. " --  <br>";
 	    }
-	    	
-	    
-	    //$row=oci_fetch_array($stid,OCI_BOTH)
-	    oci_free_statement($stid1);
-	    	
-	    
-	    //$row=oci_fetch_array($stid,OCI_BOTH)
-	    oci_free_statement($stid);
-	    oci_close($conn);
 
+
+function whatever(){  
+		$conn=connect();  
+		$user=$_SESSION['user'];	
+		$photo_id = $_GET['id'];
+	    //$sql='select * from images where owner_name=\''.$user.'\' AND photo_id=\'819741609\'';
+		$sql2='select * from images where owner_name=\''.$user.'\'';
+		//echo $sql;
+	    //Prepare sql using conn and returns the statement identifier
+	    $stid2 = oci_parse($conn, $sql2);
+	    
+	    //Execute a statement returned from oci_parse()
+	    $res2=oci_execute($stid2);
+	    
+	    //$number=0;	
+	    //echo "number of image: " .$number. "<br>";
+	    while ($row=oci_fetch_array($stid2,OCI_BOTH)){
+	    	//echo "good";
+	    	//$number++;
+	    	$photo_id= $row[0]; 
+	    	$owner_name=$row[1];
+	    	$permitted=$row[2];
+	    	$subject=$row[3];
+	    	$place=$row[4];
+	    	$date=$row[5];
+	    	$description=$row[6];
+	    	$thumbnail=$row[7];
+	    	$photo=$row[8];
+	    	echo '<a href="viewimage.php?id='.$photo_id.'&type=photo"><img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="200px" length="200px" height="200px"/> </a>';
+	  	}
+	    //echo "number of image: " .$number. "<br>";
+	    
+
+	    oci_free_statement($stid2);
+	    
+	    //$row=oci_fetch_array($stid,OCI_BOTH)
+	    oci_close($conn);
+	    
+    	return;
+}
+		oci_free_statement($stid);
+	    oci_free_statement($stid1);
+	    oci_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -234,10 +270,22 @@ function getres($sql,$conn) {
                         <table>
                             <tbody>
                                 <tr>
-                                    <!-- Next 2 line is just for test. Not needed -->
+                                	<?php
+                            			//echo "User: " .$user. "<br>";
+                            			//echo "Photo_id: " .$photo_id. "<br>";
+                            	
+                            			//echo '<img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="600px"/>';				
+                            			//echo "number of image: " .$number. "<br>";
+                            			/*for($i=$number; $i>0; $i--) {
+											echo '<a href="viewimage.php?id='.$photo_id.'&type=photo" target="_blank"><img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="200px" length="200px" height="200px"/></a>';
+										}*/
+										whatever();
+                            	
+                            ?>
+                                    <!-- Next 2 line is just for test. Not needed 
                                     <a href="test.jpg"><img src ="test.jpg" width="200px">
                                     <a href="test2.jpg"><img src ="test2.jpg" width="200px">
-                                    <!-- Change this to search image this account uploaded
+                                    Change this to search image this account uploaded
                                     <c:forEach items="${imageIds}" var="imageId">
                                         <a href="/PhotoWebApp/ViewImage?${imageId}"><img src ="/PhotoWebApp/GetThumbnailImage?${imageId}"></a>
                                         </c:forEach> -->
