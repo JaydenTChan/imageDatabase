@@ -16,7 +16,13 @@ function getUserOwnerGroups(){
 		$e = oci_error();
 		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 	}
-	$sql = 'SELECT * FROM groups WHERE user_name = \'' . $_SESSION["user"] . '\'';
+	if($_SESSION["user"] == "admin"){
+		//If admin get all groups
+		$sql = 'SELECT * FROM groups';
+	}else{
+		$sql = 'SELECT * FROM groups WHERE user_name = \'' . $_SESSION["user"] . '\'';
+	}
+	
 
 	//Prepare sql using conn and returns the statement identifier
 	$stid = oci_parse($conn, $sql);
@@ -50,7 +56,6 @@ function getUserOwnerGroups(){
 
 function getUserGroups(){
 	//This function gets all the groups the user belongs to
-	//This function will return ALL groups to the admin (Admin may view any image)
 
 	//establish connection
 	$conn=connect();
@@ -111,7 +116,7 @@ function createGroup($groupName){
 	'INSERT INTO group_lists values(' . $number . ', \'' . $_SESSION["user"] . '\',
 	to_char(sysdate, \'DD-MON-YYYY\'), null)');
 
-	for ($count = 0 ; $count < 1 ; $count++){
+	for ($count = 0 ; $count < 2 ; $count++){
 		//Iterate all sql statements
 		//Prepare sql using conn and returns the statement identifier
 		$stid = oci_parse($conn, $sql[$count]);
@@ -147,12 +152,12 @@ function loadGroup($groupID){
 	}
 
 	$sql = array('
-	SELECT group_name, date_created FROM groups WHERE group_id = \'' . $groupID . '\'','
-	SELECT friend_id, date_added, notice FROM group_lists WHERE group_id = \'' . $groupID . '\' 
+	SELECT group_name, date_created, user_name FROM groups WHERE group_id = \'' . $groupID . '\'','
+	SELECT friend_id FROM group_lists WHERE group_id = \'' . $groupID . '\' 
 	AND friend_id <> \'' . $_SESSION["user"] . '\''
 	);
 
-	for ($count = 0 ; $count < 1 ; $count++){
+	for ($count = 0 ; $count < 2 ; $count++){
 		//Iterate all sql statements
 		//Prepare sql using conn and returns the statement identifier
 		$stid = oci_parse($conn, $sql[$count]);
@@ -170,10 +175,27 @@ function loadGroup($groupID){
 		if($count == 0){
 			//groups
 			$row = oci_fetch_row($stid);
-			echo '<p>Group Name: </p>'
+			echo '<form>';
+			echo '<P>Owner: ' .$row[2]. '</P>';
+			echo '<label for="gname">Group Name: </label>';
+			echo '<input id="gname" type="text" name="groupName" value="'. $row[0] .'">';
+			echo '<input type="submit" value="Change">';
+			echo '</form>';
+			echo '<P>Date Created: ' . $row[1] . '</p>';
 		}else{
 			//group_lists
-			
+			echo '<label for="userList">Users: </label>';
+			echo '<form id="userList" method="post">';
+			echo "<select name=\"friendList\">";
+		
+			while($row = oci_fetch_row($stid)){
+				//Loop until no more rows
+				echo "<option value=\"" . $row[0] . "\">" . $row[0] . "</option>";
+			}
+			echo "</select>";		
+			echo '<input type="submit" name="delete" value="Delete">';
+			echo "</form>";
+			echo "<br>";
 		}
 		
 	}
@@ -196,7 +218,7 @@ function saveGroup($groupID, $groupName){
 	*/
 }
 
-function addFriendToGroup($groupID, $friendID, $notice){
+function addFriendToGroup($groupID, $friendID){
 	//This function saves the friend into group_lists
 	//TODO: READ FROM LIST AND WRITE ONLY NEW FRIENDS
 	/*SQL STATEMENT
@@ -204,6 +226,39 @@ function addFriendToGroup($groupID, $friendID, $notice){
 	INSERT INTO group_lists VALUES(' .$groupID. ', \'' .$friendID. '\',
 	to_char(sysdate, \'DD-MON-YYYY\'), \'' .$notice. '\')'
 	*/
+	
+	//establish connection
+	$conn=connect();
+	if (!$conn) {
+		$e = oci_error();
+		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+	}
+
+	$sql = '
+	INSERT INTO group_lists VALUES(' .$groupID. ', \'' .$friendID. '\',
+	to_char(sysdate, \'DD-MON-YYYY\'), null)';
+
+	//Prepare sql using conn and returns the statement identifier
+	$stid = oci_parse($conn, $sql);
+	//Execute a statement returned from oci_parse()
+	$res=oci_execute($stid);
+
+	if (!$res) {
+		//Error Message
+		$message = "User already part of this group! or Does not exist!";
+		echo "<script type='text/javascript'>";
+		echo "alert('$message');";
+		echo "</script>";
+		header("Refresh:0");
+	}
+
+	// Free the statement identifier when closing the connection
+	oci_free_statement($stid);
+	oci_close($conn);
+	
+	header("Refresh:0");
+	
+	return;
 }
 
 function removeFriendFromGroup($groupID, $friendID){
@@ -214,6 +269,97 @@ function removeFriendFromGroup($groupID, $friendID){
 	DELETE FROM group_lists
 	WHERE group_id = ' .$groupID. ' AND friend_id = \'' .$friendID. '\' '
 	*/
+	//establish connection
+	$conn=connect();
+	if (!$conn) {
+		$e = oci_error();
+		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+	}
+	$sql = '
+	DELETE FROM group_lists
+	WHERE group_id = ' .$groupID. ' AND friend_id = \'' .$friendID. '\' ';
+
+	//Prepare sql using conn and returns the statement identifier
+	$stid = oci_parse($conn, $sql);
+	//Execute a statement returned from oci_parse()
+	$res=oci_execute($stid);
+
+	if (!$res) {
+		//Error Message
+		$message = "Failed to delete";
+		echo "<script type='text/javascript'>";
+		echo "alert('$message');";
+		echo "window.location.href = \"../login.html\";";
+		echo "</script>";
+	}else{
+		
+	}
+
+	
+	// Free the statement identifier when closing the connection
+	oci_free_statement($stid);
+	oci_close($conn);
+	
+	header("Refresh:0");
+	
+	return;
+}
+
+function deleteGroup($groupID){
+	//This Function deletes the group from the SQL database
+	//It will also delete all attached files from the group
+	/*SQL STATEMENT
+	'
+	DELETE FROM group_lists
+	WHERE group_id = ' .$groupID. ''
+	AND
+	'
+	DELETE FROM groups
+	WHERE group_id = ' .$groupID. ''
+	*/
+	//establish connection
+	$conn=connect();
+	if (!$conn) {
+		$e = oci_error();
+		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+	}
+
+	$sql = array(
+	'
+	DELETE FROM group_lists
+	WHERE group_id = ' .$groupID. '',
+	'
+	DELETE FROM groups
+	WHERE group_id = ' .$groupID. '',
+	'
+	DELETE FROM images
+	WHERE permitted = ' .$groupID. '
+	');
+
+	for ($count = 0 ; $count < 3 ; $count++){
+		//Iterate all sql statements
+		//Prepare sql using conn and returns the statement identifier
+		$stid = oci_parse($conn, $sql[$count]);
+		//Execute a statement returned from oci_parse()
+		$res=oci_execute($stid);
+
+		if (!$res) {
+			//Error Message
+			$message = "Something Went Wrong";
+			echo "<script type='text/javascript'>";
+			echo "alert('$message');";
+			echo "</script>";
+		}
+	}
+
+	// Free the statement identifier when closing the connection
+	oci_free_statement($stid);
+	oci_close($conn);
+	
+	header("Refresh:0");
+	
+	return;
+	
 }
 
 

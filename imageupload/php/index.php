@@ -17,7 +17,7 @@ function indexImages(){
 	'CREATE INDEX placeIndex ON images(place) INDEXTYPE IS CTXSYS.CONTEXT',
 	'CREATE INDEX descriptionIndex ON images(description) INDEXTYPE IS CTXSYS.CONTEXT');
 
-	for ($counter = 1; $counter < 3; $counter++){
+	for ($counter = 1; $counter < 4; $counter++){
 		//Prepare sql using conn and returns the statement identifier
 		$stid = oci_parse($conn, $sql[$counter]);
 		//Execute a statement returned from oci_parse()

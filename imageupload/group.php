@@ -104,10 +104,14 @@ include("php/groupLoad.php");
                         </form>
                         <?php 
                         if(isset($_POST['edit'])){
+                        	//Pass the group id as a session variable
                         	$_SESSION["group"]=$_POST['groupList'];
                         	header('Location: groupSingle.php');
-                        	echo $_POST['groupList'];
                         	}
+                        if(isset($_POST['delete'])){
+                        	deleteGroup($_POST['groupList']);
+                        	header('Refresh:0');
+                        }
                         
                         ?>
                         

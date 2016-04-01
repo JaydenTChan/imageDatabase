@@ -6,6 +6,7 @@ session_start();
     <?php
 		include("PHPconnectionDB.php");
 		include("scaleimage.php");
+		include("index.php");
 		$user = $_SESSION['user'];
 
 		//http://stackoverflow.com/questions/24895170/multiple-image-upload-php-form-with-one-input
@@ -118,6 +119,8 @@ session_start();
  
       
       oci_close($conn);
+      
+      indexImages();
      
 ?>
     </body>
