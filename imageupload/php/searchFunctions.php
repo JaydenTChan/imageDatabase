@@ -33,38 +33,70 @@ function search($k_words, $fr_date, $to_date, $sort){
 	//sql command
 
 	$sql = array(
-	'
-	SELECT photo_id FROM images 
-	WHERE 
-	CONTAINS(subject, \'' . $k_words . '\', 1) > 0 
-	OR CONTAINS(place, \'' . $k_words . '\', 2) > 0
-	OR CONTAINS(description, \'' . $k_words . '\', 3) > 0
-	AND timing >= TO_DATE(\'' . $fr_date . '\', \'DD-MM-YYYY\') AND
-	timing <= TO_DATE(\'' . $to_date . '\', \'DD-MM-YYYY\')
-	ORDER BY timing ASC',
-	'
-	SELECT photo_id FROM images 
-	WHERE 
-	CONTAINS(subject, \'' . $k_words . '\', 1) > 0 
-	OR CONTAINS(place, \'' . $k_words . '\', 2) > 0
-	OR CONTAINS(description, \'' . $k_words . '\', 3) > 0
-	AND timing >= TO_DATE(\'' . $fr_date . '\', \'DD-MM-YYYY\') AND
-	timing <= TO_DATE(\'' . $to_date . '\', \'DD-MM-YYYY\')
-	ORDER BY timing DESC',
-	'
-	SELECT photo_id FROM images 
-	WHERE 
-	CONTAINS(subject, \'' . $k_words . '\', 1) > 0 
-	OR CONTAINS(place, \'' . $k_words . '\', 2) > 0
-	OR CONTAINS(description, \'' . $k_words . '\', 3) > 0
-	AND timing >= TO_DATE(\'' . $fr_date . '\', \'DD-MM-YYYY\') AND
-	timing <= TO_DATE(\'' . $to_date . '\', \'DD-MM-YYYY\')
-	ORDER BY (6*score(1) + 3*score(2) + score(3)) DESC',
 	"
-	SELECT photo_id FROM images
+	SELECT UNIQUE photo_id, timing
+	FROM images, group_lists
+	WHERE 
+	(CONTAINS(subject, '".$k_words."', 1) > 0 
+	OR CONTAINS(place, '".$k_words."', 2) > 0
+	OR CONTAINS(description, '".$k_words."', 3) > 0)
+	AND (
+	('".$_SESSION["user"]."' = friend_id AND group_id = permitted)
+	OR ('".$_SESSION["user"]."' = owner_name)) AND
+	timing >= TO_DATE('".$fr_date."', 'DD-MM-YYYY') AND
+	timing <= TO_DATE('".$to_date."', 'DD-MM-YYYY')
+	ORDER BY timing ASC",
+	"
+	SELECT UNIQUE photo_id, timing
+	FROM images, group_lists
+	WHERE 
+	(CONTAINS(subject, '".$k_words."', 1) > 0 
+	OR CONTAINS(place, '".$k_words."', 2) > 0
+	OR CONTAINS(description, '".$k_words."', 3) > 0)
+	AND (
+	('".$_SESSION["user"]."' = friend_id AND group_id = permitted)
+	OR ('".$_SESSION["user"]."' = owner_name)) AND
+	timing >= TO_DATE('".$fr_date."', 'DD-MM-YYYY') AND
+	timing <= TO_DATE('".$to_date."', 'DD-MM-YYYY')
+	ORDER BY timing DESC",
+	"
+	SELECT UNIQUE photo_id, (6*score(1) + 3*score(2) + score(3))
+	FROM images, group_lists
+	WHERE 
+	(CONTAINS(subject, '".$k_words."', 1) > 0 
+	OR CONTAINS(place, '".$k_words."', 2) > 0
+	OR CONTAINS(description, '".$k_words."', 3) > 0)
+	AND (
+	('".$_SESSION["user"]."' = friend_id AND group_id = permitted)
+	OR ('".$_SESSION["user"]."' = owner_name)) AND
+	timing >= TO_DATE('".$fr_date."', 'DD-MM-YYYY') AND
+	timing <= TO_DATE('".$to_date."', 'DD-MM-YYYY')
+	ORDER BY (6*score(1) + 3*score(2) + score(3)) DESC",
+	"
+	SELECT photo_id FROM images, group_lists
 	WHERE
+	(('" .$_SESSION["user"]. "' = friend_id AND group_id = permitted)
+	OR ('" .$_SESSION["user"]. "' = owner_name)) AND
 	timing >= TO_DATE('" . $fr_date . "', 'DD-MM-YYYY') AND
 	timing <= TO_DATE('" . $to_date . "', 'DD-MM-YYYY')
+	",
+	"
+	SELECT photo_id FROM images, group_lists
+	WHERE(
+	('".$_SESSION["user"]."' = friend_id AND group_id = permitted)
+	OR ('".$_SESSION["user"]."' = owner_name)) AND
+	timing >= TO_DATE('" . $fr_date . "', 'DD-MM-YYYY') AND
+	timing <= TO_DATE('" . $to_date . "', 'DD-MM-YYYY')
+	ORDER BY timing ASC
+	",
+	"
+	SELECT photo_id FROM images, group_lists
+	WHERE(
+	('".$_SESSION["user"]."' = friend_id AND group_id = permitted)
+	OR ('".$_SESSION["user"]."' = owner_name)) AND
+	timing >= TO_DATE('" . $fr_date . "', 'DD-MM-YYYY') AND
+	timing <= TO_DATE('" . $to_date . "', 'DD-MM-YYYY')
+	ORDER BY timing DESC
 	"
 	);
 
@@ -74,13 +106,18 @@ function search($k_words, $fr_date, $to_date, $sort){
 	if ($k_words==""){
 		//Get all images!
 		$stid = oci_parse($conn, $sql[3]);
+		if($sort == 'New'){
+			$stid = oci_parse($conn, $sql[4]);
+		}else if($sort == 'Old'){
+			$stid = oci_parse($conn, $sql[5]);
+		}
 	}else{
 		if($sort == 'New'){
-		$stid = oci_parse($conn, $sql[0]);
+			$stid = oci_parse($conn, $sql[0]);
 		}else if($sort == 'Old'){
-		$stid = oci_parse($conn, $sql[1]);
+			$stid = oci_parse($conn, $sql[1]);
 		}else{
-		$stid = oci_parse($conn, $sql[2]);
+			$stid = oci_parse($conn, $sql[2]);
 		}
 	}	
 
@@ -98,7 +135,6 @@ function search($k_words, $fr_date, $to_date, $sort){
 		while($row = oci_fetch_row($stid)){
 			//Loop through all results
 				$gotOne = 1;
-				echo "got image!";
 				echo '<a href="viewimage.php?id='.$row[0].'&type=photo"><img src ="php/getFullImage.php?id='.$row[0].'&type=photo" width="200px" length="200px" height="200px"/> </a>';
 		}
 	}

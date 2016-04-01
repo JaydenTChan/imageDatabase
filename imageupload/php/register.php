@@ -25,58 +25,42 @@ include("PHPconnectionDB.php");
     		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 	    }
  	
-            //sql command
-            $sql = 'INSERT INTO users VALUES (\''.$user.'\',\''.$pass.'\', to_char(sysdate, \'DD-MON-YYYY\'))'; 
+        //sql command
+        $sql = array(
+        'INSERT INTO users VALUES (\''.$user.'\',\''.$pass.'\', to_char(sysdate, \'DD-MON-YYYY\'))',
+        'INSERT INTO persons VALUES (\''.$user.'\', \''.$fname.'\', 
+	    	\''.$lname.'\', \''.$address.'\', \''.$email.'\', \''.$phone.'\')',
+	    'INSERT INTO group_lists VALUES(1, \''.$user.'\', to_char(sysdate, \'DD-MON-YYYY\'), null)'
+        ); 
             	
-	    $sql2 = 'INSERT INTO persons VALUES (\''.$user.'\', \''.$fname.'\', 
-	    	\''.$lname.'\', \''.$address.'\', \''.$email.'\', \''.$phone.'\')'; 
-	    	
-	    
-	    
-	    //Prepare sql using conn and returns the statement identifier
-	    $stid = oci_parse($conn, $sql);
-	    
-	    //Execute a statement returned from oci_parse()
-	    $res=oci_execute($stid);
 
-	    
-	    //if error, retrieve the error using the oci_error() function & output an error message
-
-	    if (!$res) {
-	    	//Dev Error messages
-		//$err = oci_error($stid); 
-		//echo htmlentities($err['message']);
-		$message = "Username already taken.";
-		echo "<script type='text/javascript'>";
-		echo "alert('$message');";
-		echo "window.location.href = \"../login.html\";";
-		echo "</script>";
+	    for($count = 0; $count< 3; $count++){
+			//Prepare sql using conn and returns the statement identifier
+			$stid = oci_parse($conn, $sql[$count]);
+			
+			//Execute a statement returned from oci_parse()
+			$res=oci_execute($stid);
+			
+			if (!$res) {
+				//Dev Error messages
+				//$err = oci_error($stid); 6
+				//echo htmlentities($err['message']);
+				$message = "Email already registered.";
+				echo "<script type='text/javascript'>";
+				echo "alert('$message');";
+				echo "window.location.href = \"../login.html\";";
+				echo "</script>";
+			}else{
+				
+			}
 	    }
 	    
-	    //Prepare sql using conn and returns the statement identifier
-	    $stid = oci_parse($conn, $sql2);
-	    
-	    //Execute a statement returned from oci_parse()
-	    $res=oci_execute($stid);
-	    
-	    if (!$res) {
-		//Dev Error messages
-		//$err = oci_error($stid); 6
-		//echo htmlentities($err['message']);
-		$message = "Email already registered.";
+	    $message = "Registration Successful.";
 		echo "<script type='text/javascript'>";
 		echo "alert('$message');";
 		echo "window.location.href = \"../login.html\";";
 		echo "</script>";
-	    }else{
-	    	$message = "Registration Successful.";
-		echo "<script type='text/javascript'>";
-		echo "alert('$message');";
-		echo "window.location.href = \"../login.html\";";
-		echo "</script>";
-		//header("Location: ../home.php");
-	    }
-	    
+    
 	    // Free the statement identifier when closing the connection
 	    oci_free_statement($stid);
 	    oci_close($conn);
