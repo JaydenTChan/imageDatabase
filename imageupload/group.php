@@ -108,6 +108,10 @@ include("php/groupLoad.php");
                         	$_SESSION["group"]=$_POST['groupList'];
                         	header('Location: groupSingle.php');
                         	}
+                        if(isset($_POST['delete'])){
+                        	deleteGroup($_POST['groupList']);
+                        	header('Refresh:0');
+                        }
                         
                         ?>
                         

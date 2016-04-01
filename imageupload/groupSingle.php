@@ -83,13 +83,21 @@ include("php/groupLoad.php");
                         echo '<p>Group ID: ' . $_SESSION["group"] . '</p>';
                         loadGroup($_SESSION["group"]);
                         
+                        if(isset($_POST['delete'])){
+                        	removeFriendFromGroup($_SESSION["group"], $_POST['friendList']);
+                        }
                         ?>
                         
-                        <form>
+                        <form method="post">
                         	<label for="friendText">Add User</label>
                         	<input type="text" name="addFriend" id="friendText">
-                        	<input type="submit" value="Add"><br>
+                        	<input type="submit" value="Add" name="Add"><br>
                         </form>
+                        <?php 
+                        	if(isset($_POST['Add'])){
+                        		addFriendToGroup($_SESSION["group"], $_POST['addFriend']);
+                        	}
+                        ?>
                     </div>
                 </body>
                 
