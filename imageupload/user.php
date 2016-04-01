@@ -3,7 +3,7 @@ session_start();
 include("php/PHPconnectionDB.php");
 
 
-function getres($sql,$conn) {
+function getres($sql) {
 	$conn=connect();
     $stid = oci_parse($conn,$sql);
     $res = oci_execute($stid);
@@ -225,27 +225,27 @@ function whatever(){
                                 </tr>
                             </tbody>
                         </table>
+
+                        <p>
                         
+                        <H1>This user belongs to the group(s):</H1>
+                        
+                        
+
+                    	<?php
+                    	getres("
+                    	SELECT DISTINCT group_name 
+                    	FROM groups, group_lists
+                    	WHERE (groups.group_id = group_lists.group_id AND 
+                    	friend_id =  '" .$_SESSION["user"]. "') OR
+                    	(user_name = '" .$_SESSION["user"]. "')
+                    	");
+                           	?>
+
+                        </p>
                         <form action="group.php">
 	                        <input type="submit" value="Groups"><br>
                         </form>
-                        
-                        <p>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <th>Group Name</th>
-                                    <th>Members</th>
-                                </tr>
-                                	<tr>
-                                	<?php
-                                	getres("select distinct group_id from groups",$conn);
-                                       	?>
-                                	</tr>
-
-                                    </tbody>
-                        </table>
-                        </p>
                         
                         
                         <p class="pageTitle">Images:</p>
