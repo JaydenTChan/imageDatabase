@@ -207,8 +207,6 @@ oci_close($conn);
                         <!-- Change a href and img src to get the image picked
                         <p><a href="/PhotoWebApp/GetFullImage?${picId}" target="_blank"><img src ="/PhotoWebApp/GetFullImage?${picId}" ></a></p> -->
                         <?php 
-                            //echo "User: " .$user. "<br>";
-                           	//echo "Photo_id: " .$photo_id. "<br>";
                             echo '<a href="php/getFullImage.php?id='.$photo_id.'&type=photo"><img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="600px"/></a>';
                         ?>
                         <!-- delete this when top is fixed 

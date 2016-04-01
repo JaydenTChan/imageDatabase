@@ -83,3 +83,5 @@ CREATE INDEX placeIndex ON images(place) INDEXTYPE IS CTXSYS.CONTEXT;
 CREATE INDEX descriptionIndex ON images(description) INDEXTYPE IS CTXSYS.CONTEXT;
 
 INSERT INTO users VALUES ('admin', 'admin', sysdate);
+INSERT INTO persons VALUES ('admin', 'admin', 'admin', 'admin', 'admin', 'admin');
+INSERT INTO group_lists VALUES (1, 'admin', sysdate, null);
