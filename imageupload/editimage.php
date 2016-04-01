@@ -21,7 +21,7 @@ function getres($sql,$conn) {
 		$photo_id = $_GET['id'];
 			//echo "hello $user";
 			
-	    $sql='select * from images where owner_name=\''.$user.'\' AND photo_id=\''.$photo_id.'\'';
+	    $sql='select * from images where photo_id=\''.$photo_id.'\'';
 			//echo $sql;
 	    //Prepare sql using conn and returns the statement identifier
 	    $stid = oci_parse($conn, $sql);
@@ -99,7 +99,7 @@ function getres($sql,$conn) {
             <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.php'" class="button"><br>
+           
                             
             <!-- Only shows this if account is "admin" -->
             <?php 
@@ -143,7 +143,7 @@ function getres($sql,$conn) {
                         <p>
                         
                         <?php 
-                            	echo '<a href="user.php">View My Profile</a> | <a href="viewimage.php?id='.$photo_id.'&type=photo">View Image</a> | <a href="deleteimage.php?id'.$photo_id.'&type=photo">Remove Image</a>';
+                            	echo '<a href="user.php">View My Profile</a> | <a href="viewimage.php?id='.$photo_id.'&type=photo">View Image</a> | <a href="php/deleteimage.php?id='.$photo_id.'&type=photo">Remove Image</a>';
                             ?>
                         </p>
                         
@@ -207,8 +207,8 @@ function getres($sql,$conn) {
                         <!-- Change a href and img src to get the image picked
                         <p><a href="/PhotoWebApp/GetFullImage?${picId}" target="_blank"><img src ="/PhotoWebApp/GetFullImage?${picId}" ></a></p> -->
                         <?php 
-                            echo "User: " .$user. "<br>";
-                           	echo "Photo_id: " .$photo_id. "<br>";
+                            //echo "User: " .$user. "<br>";
+                           	//echo "Photo_id: " .$photo_id. "<br>";
                             echo '<a href="php/getFullImage.php?id='.$photo_id.'&type=photo"><img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="600px"/></a>';
                         ?>
                         <!-- delete this when top is fixed 

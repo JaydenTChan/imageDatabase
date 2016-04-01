@@ -1,13 +1,13 @@
 <?php
 session_start();
-include("PHPconnectionDB.php");
-include("scaleimage.php");
-include("index.php");
 ?>
 <html>
     <body>
     <?php
-	$user = $_SESSION['user'];
+    	include("PHPconnectionDB.php");
+		include("resizeimage.php");
+		include("index.php");
+		$user = $_SESSION['user'];
 
 	//http://stackoverflow.com/questions/24895170/multiple-image-upload-php-form-with-one-input
     	//print_r($_FILES);
@@ -21,18 +21,18 @@ include("index.php");
 	}
     	
     	$subject = $_POST['subject'];
-	echo "Subject: " .$subject. "<br>";
+	//echo "Subject: " .$subject. "<br>";
 	$place = $_POST['place'];
-	echo "Place: " .$place. "<br>";
+	//echo "Place: " .$place. "<br>";
 	$date = $_POST['date'];
-	echo "Date: " .$date. "<br>";
+	//echo "Date: " .$date. "<br>";
 	$description = $_POST['description'];
-	echo "Description: " .$description. "<br>";
+	//echo "Description: " .$description. "<br>";
 	$permitted = $_POST['access'];
-	echo "Access: " .$permitted. "<br>";
-	$photo_id = rand();
-        echo "ID: " .$photo_id. "<br>";
-        echo "COUNT: " . count($_FILES['image']['name']);
+	//echo "Access: " .$permitted. "<br>";
+    //    echo "ID: " .$photo_id. "<br>";
+    //echo "COUNT: " . count($_FILES['image']['name']);
+
 	
 	
 	for($i=0; $i<count($_FILES['image']['name']); $i++) {
@@ -68,7 +68,14 @@ include("index.php");
 			  	list($width, $height) = getimagesize($tmp_name);
 				$image= addslashes($_FILES['image']['tmp_name'][$i]);
 				$image= file_get_contents($image);
-				$thumbnail = scaleImageFileToBlob($_FILES['image']['tmp_name'][$i]);            	
+				$thumbnail = scaleImageFileToBlob($_FILES['image']['tmp_name'][$i]);   
+				$photo_id = rand();    
+				echo "Subject: " .$subject. "<br>";
+	echo "Place: " .$place. "<br>";
+	echo "Date: " .$date. "<br>";
+	echo "Description: " .$description. "<br>";
+	echo "Access: " .$permitted. "<br>";
+	echo "Photo_ID: " .$photo_id. "<br>";     	
 		    		$blob1   = oci_new_descriptor($conn, OCI_D_LOB);
 		    		$blob2  = oci_new_descriptor($conn, OCI_D_LOB);
 		    		//used to save blob
@@ -100,7 +107,7 @@ include("index.php");
 		      		oci_bind_by_name($stmt, ':photo', $blob2, -1,  OCI_B_BLOB);
 		      
 		      
-		      		if(!oci_execute($stmt, OCI_DEFAULT)) {
+		      	if(!oci_execute($stmt, OCI_DEFAULT)) {
 					$message = "SOME ERROR.";
 					echo "<script type='text/javascript'>";
 					echo "alert('$message');";
@@ -108,11 +115,11 @@ include("index.php");
 					echo "</script>";
 				} else {
 		 			
-					$message = "Image Uploaded.";
+					/*$message = "Image Uploaded.";
 					echo "<script type='text/javascript'>";
 					echo "alert('$message');";
 					echo "window.location.href = \"../upload.php\";";
-					echo "</script>";
+					echo "</script>";*/
 					// save the blob data
 			  		$blob1->save($thumbnail);
 					$blob2->save($image);
@@ -127,7 +134,10 @@ include("index.php");
 			}
 		}
 	}	
-      oci_close($conn);
+		
+	
+	oci_close($conn);
+	echo '<center><form method="post" action ="../upload.php"><input type="submit" name="submit" value="continue" /> </form></center>';
       
       indexImages();
      

@@ -59,7 +59,13 @@ function whatever(){
 		$user=$_SESSION['user'];	
 		$photo_id = $_GET['id'];
 	    //$sql='select * from images where owner_name=\''.$user.'\' AND photo_id=\'819741609\'';
+	   
+	   if ($_SESSION["user"] == "admin") {
+		$sql2='select * from images';
+		} else {
 		$sql2='select * from images where owner_name=\''.$user.'\'';
+		}
+		
 		//echo $sql;
 	    //Prepare sql using conn and returns the statement identifier
 	    $stid2 = oci_parse($conn, $sql2);
