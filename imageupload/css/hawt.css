@@ -35,11 +35,11 @@ footer {
     background-color: #ed2553;
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 2px 8px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 20px;
+    font-size: 16px;
     border-radius: 4px;
     transition-duration: 0.4s;
     cursor: pointer;
@@ -48,6 +48,33 @@ footer {
 .button:hover {
     background-color: #ed2553;
     color: white;
+}
+
+.dropdown{
+    background-color: white;
+    border: 1px solid #ed2553;
+    color: #ed2553;
+    padding: 2px 8px;
+    text-align: left;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+th {
+    background-color: white;
+    color: #ed2553;
+    padding: 2px 8px;
+    text-align: left;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    transition-duration: 0.4s;
+    cursor: pointer;
 }
 
 ul {

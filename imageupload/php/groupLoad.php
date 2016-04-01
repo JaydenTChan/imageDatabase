@@ -179,21 +179,21 @@ function loadGroup($groupID){
 			echo '<P>Owner: ' .$row[2]. '</P>';
 			echo '<label for="gname">Group Name: </label>';
 			echo '<input id="gname" type="text" name="groupName" value="'. $row[0] .'">';
-			echo '<input type="submit" value="Change" name="change">';
+			echo '<input type="submit" value="Change" name="change" class="button">';
 			echo '</form>';
 			echo '<P>Date Created: ' . $row[1] . '</p>';
 		}else{
 			//group_lists
 			echo '<label for="userList">Users: </label>';
 			echo '<form id="userList" method="post">';
-			echo "<select name=\"friendList\">";
+			echo "<select name=\"friendList\" class=\"button\">";
 		
 			while($row = oci_fetch_row($stid)){
 				//Loop until no more rows
 				echo "<option value=\"" . $row[0] . "\">" . $row[0] . "</option>";
 			}
 			echo "</select>";		
-			echo '<input type="submit" name="delete" value="Delete">';
+			echo '<input type="submit" name="delete" value="Delete" class="button">';
 			echo "</form>";
 			echo "<br>";
 		}
