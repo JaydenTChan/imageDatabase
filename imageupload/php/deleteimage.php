@@ -21,23 +21,25 @@ include("PHPconnectionDB.php");
 	    $user=$_SESSION['user'];
 	    $photo_id = $_GET['id'];
 	    
-            //establish connection
-            $conn=connect();
+        //establish connection
+        $conn=connect();
+        
 	    if (!$conn) {
     		$e = oci_error();
     		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 	    }
- 	
-	    echo "<br>";
-	    echo "Hello --"  .$user."<br>";
-	    echo "ID --"  .$photo_id."<br>";
 	    
-	    $updatesql = 
-	    "DELETE from images WHERE 
-		photo_id='" .$photo_id. "' AND
-		(owner_name = ".$_SESSION["user"]." OR ".$_SESSION["user"]." = 'admin')
-		";
-	    
+	    if($_SESSION["user"]=='admin'){
+			$updatesql = 
+			"DELETE from images WHERE 
+			photo_id='" .$photo_id. "'";
+		}else{
+			$updatesql = 
+			"DELETE from images 
+			WHERE 
+			photo_id='" .$photo_id. "' AND
+			owner_name = '" . $user  . "'";
+		}
 	    
 	    $updatestid = oci_parse($conn, $updatesql);	    
 
@@ -46,7 +48,7 @@ include("PHPconnectionDB.php");
 	    
 	    //if error, retrieve the error using the oci_error() function & output an error message
 	    if (!$updateres) {
-			$message = "Some Error.";
+			$message = "You don't own the image!";
 			echo "<script type='text/javascript'>";
 			echo "alert('$message');";
 			echo "window.location.href = \"../user.php\";";
@@ -61,10 +63,7 @@ include("PHPconnectionDB.php");
 	    }
 	    
 	    // Free the statement identifier when closing the connection
-	    oci_free_statement($stid);
-	    oci_free_statement($stid1);
 	    oci_free_statement($updatestid);
-	    oci_free_statement($updatestid1);
 	    oci_close($conn);
     
 	//}
