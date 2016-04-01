@@ -30,6 +30,8 @@ include("PHPconnectionDB.php");
             	
 	    $sql2 = 'INSERT INTO persons VALUES (\''.$user.'\', \''.$fname.'\', 
 	    	\''.$lname.'\', \''.$address.'\', \''.$email.'\', \''.$phone.'\')'; 
+	    	
+	    
 	    
 	    //Prepare sql using conn and returns the statement identifier
 	    $stid = oci_parse($conn, $sql);
