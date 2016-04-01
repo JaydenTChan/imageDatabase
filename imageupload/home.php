@@ -35,7 +35,6 @@ while ($row=oci_fetch_array($stid,OCI_BOTH)){
 $sql1='select count(*) from images where owner_name=\''.$user.'\'';
 $stmt = oci_parse ($conn, $sql1);
 $items=oci_execute($stmt);
-echo "hu $items";
 
 oci_free_statement($stmt);
 oci_free_statement($stid);
@@ -153,13 +152,13 @@ oci_close($conn);
                         <tbody>
                             <tr>
                             <?php
-                            	echo "User: " .$user. "<br>";
-                            	echo "Photo_id: " .$photo_id. "<br>";
+                            	//echo "User: " .$user. "<br>";
+                            	//echo "Photo_id: " .$photo_id. "<br>";
                             	
                             	//echo '<img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="600px"/>';				
-                            	echo "number of image: " .$number. "<br>";
+                            	//echo "number of image: " .$number. "<br>";
                             	for($i=$number; $i>0; $i--) {
-								echo '<a href="viewimage.php?id='.$photo_id.'&type=photo" target="_blank"><img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="200px" length="200px" height="200px"/></a>';
+					echo '<a href="viewimage.php?id='.$photo_id.'&type=photo"><img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="200px" length="200px" height="200px"/></a>';
 								}
                             	
                             ?>

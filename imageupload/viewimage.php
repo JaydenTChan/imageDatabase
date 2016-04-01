@@ -20,7 +20,7 @@ function getres($sql,$conn) {
 		$photo_id = $_GET['id'];
 			//echo "hello $user";
 			
-		$sql='select * from images where owner_name=\''.$user.'\' AND photo_id=\''.$photo_id.'\'';
+		$sql='select * from images where photo_id=\''.$photo_id.'\'';
 		//echo $sql;
 	    //Prepare sql using conn and returns the statement identifier
 	    $stid = oci_parse($conn, $sql);
@@ -139,7 +139,7 @@ function getres($sql,$conn) {
                                 
             <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.jsp'" class="button">
+            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.php'" class="button">
                 
                                             
         </nav>
@@ -169,7 +169,7 @@ function getres($sql,$conn) {
                             <a href="EditImage?${picId}">Edit Image</a> |
                             <a href="RemoveImage?${picId}">Remove Image</a> -->
                             <?php 
-                            	echo '<a href="user.php">View My Profile</a> | <a href="editimage.php?id='.$photo_id.'&type=photo">Edit Image</a> | <a href="deleteimage.php?id'.$photo_id.'&type=photo">Remove Image</a>';
+                            	echo '<a href="user.php">View My Profile</a> | <a href="editimage.php?id='.$photo_id.'&type=photo">Edit Image</a> | <a href="php/deleteimage.php?id='.$photo_id.'&type=photo">Remove Image</a>';
                             ?>
                     
                             </p>
@@ -216,8 +216,8 @@ function getres($sql,$conn) {
                             
                             <!-- Can delete this when the above is changed -->
                             <?php
-                            	echo "User: " .$user. "<br>";
-                            	echo "Photo_id: " .$photo_id. "<br>";
+                            	//echo "User: " .$user. "<br>";
+                            	//echo "Photo_id: " .$photo_id. "<br>";
                             	
                             	//echo '<img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="600px"/>';
 								echo '<a href="php/getFullImage.php?id='.$photo_id.'&type=photo"><img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="600px"/></a>'
