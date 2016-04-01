@@ -26,6 +26,10 @@ session_start();
 	$description = $_POST['description'];
 	$permitted = $_POST['access'];
 	
+	if ($date == ""){
+		$date = date("d/m/Y");
+	}
+	
 	
 	for($i=0; $i<count($_FILES['image']['name']); $i++) {
 	

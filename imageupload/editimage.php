@@ -61,17 +61,17 @@ oci_close($conn);
             <h1>Image Upload</h1>
         </header>
         
-        <ul>
+     	<ul>
             <li><a href="home.php">Home</a></li>
             <li><a href="search.php">Search</a></li>
             <li><a href="upload.php">Upload Image</a></li>
             <li><a href="user.php">Account</a></li>
+            <li style ="float:right"><a href="logout.php">Log Out</a></li>
             <li style ="float:right"><a href="help.php">Help</a></li>
             <?php 
             	if ($_SESSION["user"] == "admin") { ?>
             	<li style ="float:right"><a href="dataanalysis.php">Data Analysis</a></li>
             <?php } ?>
-            <li style ="float:right"><a href="logout.php">Log Out</a></li>
         </ul>
         
         <nav>
