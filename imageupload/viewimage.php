@@ -41,42 +41,7 @@ function getres($sql,$conn) {
 	    	$thumbnail=$row[7];
 	    	$photo=$row[8];
 	    }
-	    
-	    //$date=strtotime(date);
-	    
-	    //echo $date;
-	    
-	    //$newdate = date('d-m-Y', $date);
-	    
-	    //$newdate= date('d-m-y', strtotime(date));
-	    
-	    //echo $newdate;
-	    	
-	    /*$sql1='select * from images where owner_name=\''.$user.'\' AND photo_id=\''.$photo_id.'\'';
-        $stmt = oci_parse ($conn, $sql1);
-        oci_execute($stmt);
-        $arr = oci_fetch_array($stmt, OCI_ASSOC);*/
-                            	
-	    /*$sql1='select * from users where user_name=\''.$user.'\'';
-	    
-	    //Prepare sql using conn and returns the statement identifier
-	    $stid1 = oci_parse($conn, $sql1);
-	    
-	    //Execute a statement returned from oci_parse()
-	    $res1=oci_execute($stid1);
-	    
-	    while ($row=oci_fetch_array($stid1,OCI_BOTH)){
-	    	//echo "good <br>";
-	    	$password=$row[1];
-	    	//echo "pas --" .$password. " --  <br>";
-	    }*/
-	    	
-	    
-	    //$row=oci_fetch_array($stid,OCI_BOTH)
-	    //oci_free_statement($stid1);
-	    	
-	    //oci_free_statement($stmt);
-	    //$row=oci_fetch_array($stid,OCI_BOTH)
+
 	    oci_free_statement($stid);
 	    oci_close($conn);
 
@@ -163,11 +128,6 @@ function getres($sql,$conn) {
                         
                         <p>
 
-                            
-                            <!-- Change this
-                            <a href="ViewProfile?${ownerName}">View My Profile</a> |
-                            <a href="EditImage?${picId}">Edit Image</a> |
-                            <a href="RemoveImage?${picId}">Remove Image</a> -->
                             <?php 
                             	echo '<a href="user.php">View My Profile</a> | <a href="editimage.php?id='.$photo_id.'&type=photo">Edit Image</a> | <a href="php/deleteimage.php?id='.$photo_id.'&type=photo">Remove Image</a>';
                             ?>

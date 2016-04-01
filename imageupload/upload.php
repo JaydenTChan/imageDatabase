@@ -6,10 +6,8 @@ function getres($sql) {
     $conn=connect();
     $stid = oci_parse($conn,$sql);
     $res = oci_execute($stid);
-    while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
-        foreach($row as$item)   {
-            echo '<option>'.$item.'</option>';
-        }
+    while ($row = oci_fetch_row($stid)) {
+    	echo '<option value="'.$row[1].'">'.$row[0].'</option>';
     }
     oci_free_statement($stid);
     oci_close($conn);
@@ -20,39 +18,7 @@ function getres($sql) {
 <!DOCTYPE html>
 <html>
     <head>
-        <style>
-            header {
-                background-color:black;
-                color:white;
-                text-align:center;
-                font-size: 25px;
-                padding:5px;
-            }
-        nav {
-            line-height:30px;
-            background-color:gray;
-            height:600px;
-            width:150px;
-            float:left;
-            padding:5px;
-        }
-        section {
-            width:600px;
-            float:left;
-            padding:10px;
-        }
-        footer {
-            background-color:black;
-            color:white;
-            clear:both;
-            text-align:center;
-            padding:5px;
-        }
-        .button {
-            font-size: 20px;
-            color: black;
-        }
-        </style>
+        <link rel="stylesheet" href="css/hawt.css">
     </head>
     <body>
         
@@ -60,26 +26,20 @@ function getres($sql) {
             <h1>Image Upload</h1>
         </header>
         
-        <nav>
-            
-            <!-- change location to correct location -->
-            <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
-	    <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.php'" class="button"><br>
-
-            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
-                            
-            <!-- Only shows this if account is "admin" -->
+     	<ul>
+            <li><a href="home.php">Home</a></li>
+            <li><a href="search.php">Search</a></li>
+            <li><a href="upload.php">Upload Image</a></li>
+            <li><a href="user.php">Account</a></li>
+            <li style ="float:right"><a href="logout.php">Log Out</a></li>
+            <li style ="float:right"><a href="help.php">Help</a></li>
             <?php 
             	if ($_SESSION["user"] == "admin") { ?>
-            	<INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.php'" class="button"><br>
+            	<li style ="float:right"><a href="dataanalysis.php">Data Analysis</a></li>
             <?php } ?>
-            	
-            
-            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.php'" class="button">
-                                            
-                            
+        </ul>
+        
+        <nav>       
         </nav>
         
         <!-- This is the section with the datas and the functions -->
@@ -149,7 +109,7 @@ function getres($sql) {
                                         <select name="access">
 
                                             <?php 
-                                            	getres("select distinct group_id from groups",$conn);
+                                            	getres("select distinct group_name, group_id from groups");
                                             	?>
 
                                                 </select>

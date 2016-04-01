@@ -20,19 +20,15 @@ session_start();
 	trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 	}
     	
-    	$subject = $_POST['subject'];
-	//echo "Subject: " .$subject. "<br>";
+	$subject = $_POST['subject'];
 	$place = $_POST['place'];
-	//echo "Place: " .$place. "<br>";
 	$date = $_POST['date'];
-	//echo "Date: " .$date. "<br>";
 	$description = $_POST['description'];
-	//echo "Description: " .$description. "<br>";
 	$permitted = $_POST['access'];
-	//echo "Access: " .$permitted. "<br>";
-    //    echo "ID: " .$photo_id. "<br>";
-    //echo "COUNT: " . count($_FILES['image']['name']);
-
+	
+	if ($date == ""){
+		$date = date("d/m/Y");
+	}
 	
 	
 	for($i=0; $i<count($_FILES['image']['name']); $i++) {
@@ -71,40 +67,40 @@ session_start();
 				$thumbnail = scaleImageFileToBlob($_FILES['image']['tmp_name'][$i]);   
 				$photo_id = rand();    
 				echo "Subject: " .$subject. "<br>";
-	echo "Place: " .$place. "<br>";
-	echo "Date: " .$date. "<br>";
-	echo "Description: " .$description. "<br>";
-	echo "Access: " .$permitted. "<br>";
-	echo "Photo_ID: " .$photo_id. "<br>";     	
-		    		$blob1   = oci_new_descriptor($conn, OCI_D_LOB);
-		    		$blob2  = oci_new_descriptor($conn, OCI_D_LOB);
-		    		//used to save blob
-		    		$sql = '
-		    		INSERT INTO images
-		    		(photo_id,owner_name,permitted,subject,place,timing,description,thumbnail,photo) 
-		    		VALUES
-		    		(:photo_id, 
-		    		:owner_name, 
-		    		:permitted, 
-		    		:subject, 
-		    		:place, 
-		    		TO_DATE( :time, \'DD-MM-YYYY\'), 
-		    		:notes, 
-		    		EMPTY_BLOB(), EMPTY_BLOB()) 
-		    		returning thumbnail, photo into :thumbnail, :photo';
-		    		
-		    		$stmt = oci_parse($conn, $sql);
-		      
-		      		oci_bind_by_name($stmt, ':owner_name', $user);
-		      		oci_bind_by_name($stmt, ':permitted', $permitted);
-		      		oci_bind_by_name($stmt, ':photo_id', $photo_id);
-		      		oci_bind_by_name($stmt, ':subject', $subject);
-		      		oci_bind_by_name($stmt, ':place', $place);
-		      		oci_bind_by_name($stmt, ':time', $date);
-		      		oci_bind_by_name($stmt, ':notes', $description);
-		      
-		      		oci_bind_by_name($stmt, ':thumbnail', $blob1, -1,  OCI_B_BLOB);
-		      		oci_bind_by_name($stmt, ':photo', $blob2, -1,  OCI_B_BLOB);
+				echo "Place: " .$place. "<br>";
+				echo "Date: " .$date. "<br>";
+				echo "Description: " .$description. "<br>";
+				echo "Access: " .$permitted. "<br>";
+				echo "Photo_ID: " .$photo_id. "<br>";     	
+	    		$blob1   = oci_new_descriptor($conn, OCI_D_LOB);
+	    		$blob2  = oci_new_descriptor($conn, OCI_D_LOB);
+	    		//used to save blob
+	    		$sql = '
+	    		INSERT INTO images
+	    		(photo_id,owner_name,permitted,subject,place,timing,description,thumbnail,photo) 
+	    		VALUES
+	    		(:photo_id, 
+	    		:owner_name, 
+	    		:permitted, 
+	    		:subject, 
+	    		:place, 
+	    		TO_DATE( :time, \'DD-MM-YYYY\'), 
+	    		:notes, 
+	    		EMPTY_BLOB(), EMPTY_BLOB()) 
+	    		returning thumbnail, photo into :thumbnail, :photo';
+	    		
+	    		$stmt = oci_parse($conn, $sql);
+	      
+	      		oci_bind_by_name($stmt, ':owner_name', $user);
+	      		oci_bind_by_name($stmt, ':permitted', $permitted);
+	      		oci_bind_by_name($stmt, ':photo_id', $photo_id);
+	      		oci_bind_by_name($stmt, ':subject', $subject);
+	      		oci_bind_by_name($stmt, ':place', $place);
+	      		oci_bind_by_name($stmt, ':time', $date);
+	      		oci_bind_by_name($stmt, ':notes', $description);
+	      
+	      		oci_bind_by_name($stmt, ':thumbnail', $blob1, -1,  OCI_B_BLOB);
+	      		oci_bind_by_name($stmt, ':photo', $blob2, -1,  OCI_B_BLOB);
 		      
 		      
 		      	if(!oci_execute($stmt, OCI_DEFAULT)) {

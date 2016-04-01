@@ -1,91 +1,59 @@
 <?php
 session_start();
 include("php/PHPconnectionDB.php");
-$conn=connect();
-function getres($sql,$conn) {
+
+function getres($sql) {
+    $conn=connect();
     $stid = oci_parse($conn,$sql);
     $res = oci_execute($stid);
-    while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
-        foreach($row as$item)   {
-            echo '<option>'.$item.'</option>';
-        }
+    while ($row = oci_fetch_row($stid)) {
+    	echo '<option value="'.$row[1].'">'.$row[0].'</option>';
     }
+    oci_free_statement($stid);
+    oci_close($conn);
+    return;
 }
+$conn=connect();
 	      
-		if (!$conn) {
-    		$e = oci_error();
-    		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-	    }
-	    
-		$user=$_SESSION['user'];
-		$photo_id = $_GET['id'];
-			//echo "hello $user";
-			
-	    $sql='select * from images where photo_id=\''.$photo_id.'\'';
-			//echo $sql;
-	    //Prepare sql using conn and returns the statement identifier
-	    $stid = oci_parse($conn, $sql);
-	    
-	    //Execute a statement returned from oci_parse()
-	    $res=oci_execute($stid);
-	    
-	    while ($row=oci_fetch_array($stid,OCI_BOTH)){
-	    	//echo "good";
-	    	$photo_id= $row[0]; 
-	    	$owner_name=$row[1];
-	    	$permitted=$row[2];
-	    	$subject=$row[3];
-	    	$place=$row[4];
-	    	$date=strtotime($row[5]);
-	    	$newdate=date('d-m-Y', $date);
-	    	$description=$row[6];
-	    	$thumbnail=$row[7];
-	    	$photo=$row[8];
-	    }
+if (!$conn) {
+	$e = oci_error();
+	trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
 
-	    	
-	    
-	    //$row=oci_fetch_array($stid,OCI_BOTH)
-	    oci_free_statement($stid);
-	    oci_close($conn);
+$user=$_SESSION['user'];
+$photo_id = $_GET['id'];
+	//echo "hello $user";
+	
+$sql='select * from images where photo_id=\''.$photo_id.'\'';
+	//echo $sql;
+//Prepare sql using conn and returns the statement identifier
+$stid = oci_parse($conn, $sql);
+
+//Execute a statement returned from oci_parse()
+$res=oci_execute($stid);
+
+while ($row=oci_fetch_array($stid,OCI_BOTH)){
+	//echo "good";
+	$photo_id= $row[0]; 
+	$owner_name=$row[1];
+	$permitted=$row[2];
+	$subject=$row[3];
+	$place=$row[4];
+	$date=strtotime($row[5]);
+	$newdate=date('d-m-Y', $date);
+	$description=$row[6];
+	$thumbnail=$row[7];
+	$photo=$row[8];
+}
+
+oci_free_statement($stid);
+oci_close($conn);
 
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <style>
-            header {
-                background-color:black;
-                color:white;
-                text-align:center;
-                font-size: 25px;
-                padding:5px;
-            }
-        nav {
-            line-height:30px;
-            background-color:gray;
-            height:600px;
-            width:150px;
-            float:left;
-            padding:5px;
-        }
-        section {
-            width:600px;
-            float:left;
-            padding:10px;
-        }
-        footer {
-            background-color:black;
-            color:white;
-            clear:both;
-            text-align:center;
-            padding:5px;
-        }
-        .button {
-            font-size: 20px;
-            color: black;
-        }
-        </style>
+        <link rel="stylesheet" href="css/hawt.css">
     </head>
     <body>
         
@@ -93,25 +61,21 @@ function getres($sql,$conn) {
             <h1>Image Upload</h1>
         </header>
         
-        <nav>
-            
-            <!-- change location to correct location -->
-            <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
-           
-                            
-            <!-- Only shows this if account is "admin" -->
+     	<ul>
+            <li><a href="home.php">Home</a></li>
+            <li><a href="search.php">Search</a></li>
+            <li><a href="upload.php">Upload Image</a></li>
+            <li><a href="user.php">Account</a></li>
+            <li style ="float:right"><a href="logout.php">Log Out</a></li>
+            <li style ="float:right"><a href="help.php">Help</a></li>
             <?php 
             	if ($_SESSION["user"] == "admin") { ?>
-            	<INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.php'" class="button"><br>
+            	<li style ="float:right"><a href="dataanalysis.php">Data Analysis</a></li>
             <?php } ?>
-                                
-            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.php'" class="button">
-                                            
-                                            
+        </ul>
+        
+        <nav>
+                           
         </nav>
         
         <!-- This is the section with the datas and the functions -->
@@ -188,16 +152,16 @@ function getres($sql,$conn) {
                                                 <!-- Change this -->
                                                 <?php 
                                                     $conn = connect();
-                                            	    getres("select distinct group_id from groups",$conn);
+                                            	    getres("select distinct group_name, group_id from groups");
                                             	?>
-                                                                </select>
+                                            </select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th></th>
                                         <td>
-                                            <br><input name=".submit" value="Save" type="submit">
-                                                <input value="Cancel" type="button" onclick="location.href='viewimage.php?id=<?php echo $photo_id; ?>'">
+                                            <br><input name=".submit" value="Save" type="submit" class="button">
+                                                <input value="Cancel" type="button" onclick="location.href='viewimage.php?id=<?php echo $photo_id; ?>'" class="button">
                                                     </td>
                                     </tr>
                                 </tbody>
@@ -207,8 +171,6 @@ function getres($sql,$conn) {
                         <!-- Change a href and img src to get the image picked
                         <p><a href="/PhotoWebApp/GetFullImage?${picId}" target="_blank"><img src ="/PhotoWebApp/GetFullImage?${picId}" ></a></p> -->
                         <?php 
-                            //echo "User: " .$user. "<br>";
-                           	//echo "Photo_id: " .$photo_id. "<br>";
                             echo '<a href="php/getFullImage.php?id='.$photo_id.'&type=photo"><img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="600px"/></a>';
                         ?>
                         <!-- delete this when top is fixed 

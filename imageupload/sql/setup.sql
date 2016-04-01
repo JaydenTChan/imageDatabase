@@ -78,8 +78,18 @@ CREATE TABLE images (
 /*
  * New Stuff
  */
+CREATE TABLE image_views (
+	photo_id	int,
+	viewee		varchar(24),
+	PRIMARY KEY(photo_id, viewee),
+	FOREIGN KEY(photo_id) REFERENCES images,
+	FOREIGN KEY(viewee) REFERENCES users
+);
+ 
 CREATE INDEX subjectIndex ON images(subject) INDEXTYPE IS CTXSYS.CONTEXT;
 CREATE INDEX placeIndex ON images(place) INDEXTYPE IS CTXSYS.CONTEXT;
 CREATE INDEX descriptionIndex ON images(description) INDEXTYPE IS CTXSYS.CONTEXT;
 
 INSERT INTO users VALUES ('admin', 'admin', sysdate);
+INSERT INTO persons VALUES ('admin', 'admin', 'admin', 'admin', 'admin', 'admin');
+INSERT INTO group_lists VALUES (1, 'admin', sysdate, null);

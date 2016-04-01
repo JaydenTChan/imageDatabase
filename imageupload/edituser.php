@@ -150,7 +150,7 @@ function getres($sql,$conn) {
                                     </tr>
                                     <tr>
                                         <th>Password: <span class="requiredField">*</span></th>
-                                        <td><input type="text" id="password" maxlength="24" name="password" value="<?php echo $password; ?>"></td>
+                                        <td><input type="password" id="password" maxlength="24" name="password" value="<?php echo $password; ?>"></td>
                                     </tr>
                                     <tr>
                                         <th>First name: <span class="requiredField">*</span></th>
