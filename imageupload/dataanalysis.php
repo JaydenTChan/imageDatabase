@@ -66,24 +66,24 @@ session_start();
                                 <tr>
                                     <th>User: </th>
                                     <td>
-                                        <select name="user">
+                                        <select name="user" class="dropdown">
                                             <option value="All">All</option>
                                             <c:forEach items="${users}" var="foundUser">
-                                                <option value="${foundUser}">${foundUser}</option>
-                                                </c:forEach> 
-                                                </select>
+                                            <option value="${foundUser}">${foundUser}</option>
+                                            </c:forEach> 
+                                        </select>
                                         
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Subject: </th>
                                     <td>
-                                        <select name="subject">
+                                        <select name="subject" class="dropdown">
                                             <option value="All">All</option>
                                             <c:forEach items="${subjects}" var="foundSubject">
-                                                <option value="${foundSubject}">${foundSubject}</option>
-                                                </c:forEach> 
-                                                </select>
+                                            <option value="${foundSubject}">${foundSubject}</option>
+                                            </c:forEach> 
+                                        </select>
                                         
                                     </td>
                                 </tr>

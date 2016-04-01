@@ -67,7 +67,7 @@ function getres($sql) {
                     
                     <div class="content">
                         <p>
-                        <a href="uploadmulti.php">Upload Multiple Images</a>
+                        <a href="uploadmulti.php" class="button">Upload Multiple Images</a>
 
                         </p>
                         
@@ -78,16 +78,16 @@ function getres($sql) {
                             <table>
                                 <tr>
                                     <th>File path: <span class="requiredField">*</span></th>
-                                    <td><input id="image[]" name="image[]" size="30" type="file"></td>
+                                    <td><input id="image[]" name="image[]" size="30" type="file" class="dropdown"></td>
                                 </tr>
                                 <tr>
                                     <th>Subject: </th>
 
-                                    <td><input name="subject" size="50" maxlength="128" type="text"></td>
+                                    <td><input name="subject" size="50" maxlength="128" type="text" class="dropdown"></td>
                                 </tr>
                                 <tr>
                                     <th>Place: </th>
-                                    <td><input name="place" size="50" maxlength="128" type="text"></td>
+                                    <td><input name="place" size="50" maxlength="128" type="text" class="dropdown"></td>
 
                                 </tr>
                                 <tr>
@@ -100,13 +100,13 @@ function getres($sql) {
                                 <tr>
                                     <th>Description: </th>
 
-                                    <td><textarea name="description" id="description" rows="4" cols="57" maxlength="2048"></textarea></td>
+                                    <td><textarea name="description" id="description" rows="4" cols="57" maxlength="2048" class="dropdown"></textarea></td>
 
                                 </tr>
                                 <tr>
                                     <th>Access: <span class="requiredField">*</span></th>
                                     <td>
-                                        <select name="access">
+                                        <select name="access" class="dropdown">
 
                                             <?php 
                                             	getres("select distinct group_name, group_id from groups");
@@ -117,7 +117,7 @@ function getres($sql) {
                                 </tr>
                                 <tr>
                                     <th></th>
-                                    <td><br><input name=".submit" value="Upload" type="submit"></td>
+                                    <td><br><input name=".submit" value="Upload" type="submit" class="button"></td>
                                 </tr>
                                 </tbody>
                             </table>
