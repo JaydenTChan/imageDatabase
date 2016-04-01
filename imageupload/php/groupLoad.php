@@ -186,7 +186,7 @@ function loadGroup($groupID){
 			//group_lists
 			echo '<label for="userList">Users: </label>';
 			echo '<form id="userList" method="post">';
-			echo "<select name=\"friendList\" class=\"button\">";
+			echo "<select name=\"friendList\" class=\"dropdown\">";
 		
 			while($row = oci_fetch_row($stid)){
 				//Loop until no more rows

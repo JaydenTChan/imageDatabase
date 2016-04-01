@@ -11,6 +11,13 @@ include("PHPconnectionDB.php");
             //get the input
             $name=$_POST['Username'];
             $pass=$_POST['Password'];
+            
+        /*
+        if($name=='admin' and $pass=='admin'){
+	        //JUST IN CASE
+        	$_SESSION["user"]='admin';
+        	header("Location: ../home.php");
+        }*/
 			
 	    ini_set('display_errors', 1);
 	    error_reporting(E_ALL);
@@ -22,9 +29,8 @@ include("PHPconnectionDB.php");
     		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 	    }
  	
-            //sql command
-            $sql = 'SELECT * FROM users WHERE user_name = \''.$name.'\' and password = \''.$pass.'\'' ;
-            //
+        //sql command
+        $sql = 'SELECT * FROM users WHERE user_name = \''.$name.'\' and password = \''.$pass.'\'' ;
 	    
 	    //Prepare sql using conn and returns the statement identifier
 	    $stid = oci_parse($conn, $sql);

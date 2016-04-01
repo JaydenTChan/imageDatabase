@@ -4,18 +4,18 @@
  *              Winter, 2016
  *  Author:     Prof. Li-Yan Yuan
  */
+ 
+/* Indexes Not part of original setup.sql*/
+DROP INDEX subjectIndex;
+DROP INDEX placeIndex;
+DROP INDEX descriptionIndex;
+
+DROP TABLE image_views;
 DROP TABLE images;
 DROP TABLE group_lists;
 DROP TABLE groups;
 DROP TABLE persons;
 DROP TABLE users;
-
-/* Indexes Not part of original setup.sql*/
-DROP INDEX subjectIndex;
-DROP INDEX placeIndex;
-DROP INDEX descriptionIndex;
-/* End of New Changes */
-
 
 CREATE TABLE users (
    user_name varchar(24),
@@ -93,3 +93,5 @@ CREATE INDEX descriptionIndex ON images(description) INDEXTYPE IS CTXSYS.CONTEXT
 INSERT INTO users VALUES ('admin', 'admin', sysdate);
 INSERT INTO persons VALUES ('admin', 'admin', 'admin', 'admin', 'admin', 'admin');
 INSERT INTO group_lists VALUES (1, 'admin', sysdate, null);
+COMMIT;
+

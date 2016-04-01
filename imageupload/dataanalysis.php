@@ -1,6 +1,8 @@
 <?php
 //Start the session
 session_start();
+include("php/PHPconnectionDB.php");
+include("php/data.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -58,7 +60,7 @@ session_start();
                         
                         <hr/>
                         
-                        <form name="DataAnalysis" method="POST" action="dataanalysisreport.php">
+                        <form name="DataAnalysis" method="POST">
                             <table>
                                 <tr>
                                     <th colspan="2">Please specify your parameters</th>
@@ -66,28 +68,28 @@ session_start();
                                 <tr>
                                     <th>User: </th>
                                     <td>
-                                        <select name="user" class="dropdown">
+                                        <select name="user">
                                             <option value="All">All</option>
-                                            <c:forEach items="${users}" var="foundUser">
-                                            <option value="${foundUser}">${foundUser}</option>
-                                            </c:forEach> 
+                                            <option value="None">None</option>
+                                            <?php populateUsers(); ?>
                                         </select>
                                         
                                     </td>
-                                </tr>
+                                </tr>                               
                                 <tr>
                                     <th>Subject: </th>
-                                    <td>
-                                        <select name="subject" class="dropdown">
-                                            <option value="All">All</option>
-                                            <c:forEach items="${subjects}" var="foundSubject">
-                                            <option value="${foundSubject}">${foundSubject}</option>
-                                            </c:forEach> 
-                                        </select>
-                                        
-                                    </td>
+                                    <td><input type = "text" class = "dropdown" name = "subject">Type ALL to query all subjects</input></td>
                                 </tr>
-                                
+                                <tr>
+                                	<th>Grouping: </th>
+                                	<td>
+                                		<select name="date">
+                                			<option value="Weekly">Weekly</option>
+                                			<option value="Monthly">Monthly</option>
+                                			<option value="Yearly">Yearly</option>
+                                		</select>
+                                	</td>
+                                </tr>
                                 <tr>
                                     <th>From Date: </th>
                                     <td><input name="fromDate" type="textfield" id="fromDate" class="date-picker" maxlength="10" size="10"/> <span class="formHintText">(dd/MM/yyyy)</span></td>
@@ -98,16 +100,23 @@ session_start();
                                 </tr>
                                 
                                 <tr>
-                                    <td ALIGN=CENTER COLSPAN="2"><input type="submit" name=".submit" value="Generate Report" class="button"></td>
+                                    <td ALIGN=LEFT COLSPAN="2"><input type="submit" name="generate" value="Generate Report" class="button"></td>
                                 </tr>
                             </table>
                             </div>
+                            
+                            <?php if (isset($_POST['generate'])){
+                            	getData($_POST['user'], $_POST['subject'], $_POST['date'],$_POST['toDate'], $_POST['fromDate']);
+                            }
+                            ?>
                     </form>
                 </body> 
             </html>
         </section>
         
         <footer>
+        	<?php getUserCount(); getImageCount(); getViews();?>
+        	<br>
             Copyright
         </footer>
         

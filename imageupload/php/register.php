@@ -39,31 +39,34 @@ include("PHPconnectionDB.php");
 			$stid = oci_parse($conn, $sql[$count]);
 			
 			//Execute a statement returned from oci_parse()
-			$res=oci_execute($stid);
+			$res=oci_execute($stid, OCI_DEFAULT);
 			
 			if (!$res) {
-				//Dev Error messages
-				//$err = oci_error($stid); 6
-				//echo htmlentities($err['message']);
-				$message = "Email already registered.";
+				oci_rollback($conn);
+				oci_free_statement($stid);
+			    oci_close($conn);
+				$message = "Username or Email already registered.";
 				echo "<script type='text/javascript'>";
 				echo "alert('$message');";
 				echo "window.location.href = \"../login.html\";";
 				echo "</script>";
+				return;
 			}else{
 				
 			}
 	    }
+	    
+	    // Free the statement identifier when closing the connection
+	    
+	    oci_commit($conn);
+	    oci_free_statement($stid);
+	    oci_close($conn);
 	    
 	    $message = "Registration Successful.";
 		echo "<script type='text/javascript'>";
 		echo "alert('$message');";
 		echo "window.location.href = \"../login.html\";";
 		echo "</script>";
-    
-	    // Free the statement identifier when closing the connection
-	    oci_free_statement($stid);
-	    oci_close($conn);
     
 	}
 	?>

@@ -144,10 +144,23 @@ function getres($sql) {
                                         <select name="access">
 
                                             <?php 
-                                            	getres("select distinct group_name, group_id from groups");
-                                            	?>
+                                            if ($_SESSION["user"]=='admin'){
+                                              	getres("
+                                            	SELECT DISTINCT group_name, groups.group_id
+                                            	FROM groups
+                                            	WHERE group_id <> 2");
+                                        	}else{
+                                            	getres("
+                                            	SELECT DISTINCT group_name, groups.group_id
+                                            	FROM groups, group_lists
+                                            	WHERE (groups.group_id = group_lists.group_id AND
+                                            	friend_id =  '" .$_SESSION["user"]. "') OR
+                                            	(user_name = '" .$_SESSION["user"]. "')
+                                            	");
+                                        	}
+                                            ?>
 
-                                                </select>
+                                        </select>
                                     </td>
                                 </tr>
                                 <tr>

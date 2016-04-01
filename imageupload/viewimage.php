@@ -41,6 +41,16 @@ function getres($sql,$conn) {
 	    	$thumbnail=$row[7];
 	    	$photo=$row[8];
 	    }
+	    
+	    oci_free_statement($stid);
+	    
+		$sql='INSERT INTO image_views VALUES('.$photo_id.',\''.$user.'\')';
+		//echo $sql;
+	    //Prepare sql using conn and returns the statement identifier
+	    $stid = oci_parse($conn, $sql);
+	    
+	    //Execute a statement returned from oci_parse()
+	    $res=@oci_execute($stid);
 
 	    oci_free_statement($stid);
 	    oci_close($conn);
@@ -50,63 +60,27 @@ function getres($sql,$conn) {
 <!DOCTYPE html>
 <html>
     <head>
-        <style>
-            header {
-                background-color:black;
-                color:white;
-                text-align:center;
-                font-size: 25px;
-                padding:5px;
-            }
-        nav {
-            line-height:30px;
-            background-color:gray;
-            height:600px;
-            width:150px;
-            float:left;
-            padding:5px;
-        }
-        section {
-            width:600px;
-            float:left;
-            padding:10px;
-        }
-        footer {
-            background-color:black;
-            color:white;
-            clear:both;
-            text-align:center;
-            padding:5px;
-        }
-        .button {
-            font-size: 20px;
-            color: black;
-        }
-        </style>
+        <link rel="stylesheet" href="css/hawt.css">
     </head>
     <body>
         
         <header>
             <h1>Image Upload</h1>
         </header>
-        
-        <nav>
-            
-            <!-- change location to correct location -->
-            <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
-                            
+             	<ul>
+            <li><a href="home.php">Home</a></li>
+            <li><a href="search.php">Search</a></li>
+            <li><a href="upload.php">Upload Image</a></li>
+            <li><a href="user.php">Account</a></li>
+            <li style ="float:right"><a href="logout.php">Log Out</a></li>
+            <li style ="float:right"><a href="help.php">Help</a></li>
             <?php 
             	if ($_SESSION["user"] == "admin") { ?>
-            	<INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.php'" class="button"><br>
+            	<li style ="float:right"><a href="dataanalysis.php">Data Analysis</a></li>
             <?php } ?>
-                                
-            <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Logout" onclick="location.href='logout.php'" class="button">
-                
-                                            
+        </ul>
+        <nav>
+         
         </nav>
         
         <!-- This is the section with the datas and the functions -->
@@ -171,22 +145,13 @@ function getres($sql,$conn) {
                                 </tbody>
                             </table>
                             
-                            <!-- Change this
-                            <a href="/PhotoWebApp/GetFullImage?${picId}" target="_blank"><img src ="/PhotoWebApp/GetFullImage?${picId}" ></a> -->
-                            
-                            <!-- Can delete this when the above is changed -->
+
+
                             <?php
-                            	//echo "User: " .$user. "<br>";
-                            	//echo "Photo_id: " .$photo_id. "<br>";
-                            	
-                            	//echo '<img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="600px"/>';
 								echo '<a href="php/getFullImage.php?id='.$photo_id.'&type=photo"><img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="600px"/></a>'
-                            	
                             ?>
 
-                            <!--
-                            <a href="<?php echo 'getFullImage.php?id='.$photo_id.'&type=photo' ?>" target="_blank"><img src ="<?php echo 'getFullImage.php?id='.$photo_id.'&type=photo' ?>">></a> -->
-                            
+                        
                             </div>
                 </body>
             </html>

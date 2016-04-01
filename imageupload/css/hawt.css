@@ -64,8 +64,9 @@ footer {
     cursor: pointer;
 }
 
-th {
+select{
     background-color: white;
+    border: 1px solid #ed2553;
     color: #ed2553;
     padding: 2px 8px;
     text-align: left;
@@ -75,6 +76,19 @@ th {
     border-radius: 4px;
     transition-duration: 0.4s;
     cursor: pointer;
+}
+
+td {
+    color: #ed2553;
+}
+
+.results{
+    background-color: white;
+    border: 1px solid #ed2553;
+    color: #ed2553;
+    padding: 2px 8px;
+    font-size: 18px;
+    border-radius: 8px;
 }
 
 ul {
