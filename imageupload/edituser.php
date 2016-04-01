@@ -16,7 +16,7 @@ function getres($sql,$conn) {
     		$e = oci_error();
     		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 	    }
-			$user=$_SESSION['user'];
+		$user=$_SESSION['user'];
 			//echo "hello $user";
 			
 		$sql='select * from Persons where user_name=\''.$user.'\'';

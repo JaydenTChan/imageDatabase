@@ -1,3 +1,87 @@
+<?php
+session_start();
+include("php/PHPconnectionDB.php");
+$conn=connect();
+function getres($sql,$conn) {
+    $stid = oci_parse($conn,$sql);
+    $res = oci_execute($stid);
+    while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
+        foreach($row as$item)   {
+            echo '<option>'.$item.'</option>';
+        }
+    }
+}
+	    
+		if (!$conn) {
+    		$e = oci_error();
+    		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+	    }
+		$user=$_SESSION['user'];
+		$photo_id = $_GET['id'];
+			//echo "hello $user";
+			
+		$sql='select * from images where owner_name=\''.$user.'\' AND photo_id=\''.$photo_id.'\'';
+		//echo $sql;
+	    //Prepare sql using conn and returns the statement identifier
+	    $stid = oci_parse($conn, $sql);
+	    
+	    //Execute a statement returned from oci_parse()
+	    $res=oci_execute($stid);
+	    
+	    while ($row=oci_fetch_array($stid,OCI_BOTH)){
+	    	//echo "good";
+	    	$photo_id= $row[0]; 
+	    	$owner_name=$row[1];
+	    	$permitted=$row[2];
+	    	$subject=$row[3];
+	    	$place=$row[4];
+	    	$date=strtotime($row[5]);
+	    	$newdate=date('d-m-Y', $date);
+	    	$description=$row[6];
+	    	$thumbnail=$row[7];
+	    	$photo=$row[8];
+	    }
+	    
+	    //$date=strtotime(date);
+	    
+	    //echo $date;
+	    
+	    //$newdate = date('d-m-Y', $date);
+	    
+	    //$newdate= date('d-m-y', strtotime(date));
+	    
+	    //echo $newdate;
+	    	
+	    /*$sql1='select * from images where owner_name=\''.$user.'\' AND photo_id=\''.$photo_id.'\'';
+        $stmt = oci_parse ($conn, $sql1);
+        oci_execute($stmt);
+        $arr = oci_fetch_array($stmt, OCI_ASSOC);*/
+                            	
+	    /*$sql1='select * from users where user_name=\''.$user.'\'';
+	    
+	    //Prepare sql using conn and returns the statement identifier
+	    $stid1 = oci_parse($conn, $sql1);
+	    
+	    //Execute a statement returned from oci_parse()
+	    $res1=oci_execute($stid1);
+	    
+	    while ($row=oci_fetch_array($stid1,OCI_BOTH)){
+	    	//echo "good <br>";
+	    	$password=$row[1];
+	    	//echo "pas --" .$password. " --  <br>";
+	    }*/
+	    	
+	    
+	    //$row=oci_fetch_array($stid,OCI_BOTH)
+	    //oci_free_statement($stid1);
+	    	
+	    //oci_free_statement($stmt);
+	    //$row=oci_fetch_array($stid,OCI_BOTH)
+	    oci_free_statement($stid);
+	    oci_close($conn);
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -47,10 +131,11 @@
             <INPUT TYPE="button" VALUE="Home" onclick="location.href='home.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Search" onclick="location.href='search.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Upload" onclick="location.href='upload.php'" class="button"><br>
-            <INPUT TYPE="button" VALUE="Group" onclick="location.href='group.php'" class="button"><br>
                             
-            <!-- Only shows this if account is "admin" -->
-            <INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.php'" class="button"><br>
+            <?php 
+            	if ($_SESSION["user"] == "admin") { ?>
+            	<INPUT TYPE="button" VALUE="Data Analysis" onclick="location.href='dataanalysis.php'" class="button"><br>
+            <?php } ?>
                                 
             <INPUT TYPE="button" VALUE="Account" onclick="location.href='user.php'" class="button"><br>
             <INPUT TYPE="button" VALUE="Help" onclick="location.href='help.php'" class="button"><br>
@@ -73,24 +158,20 @@
                 
                 <body>
                     
-                    <jsp:include page="resources/includes/header.jsp" />
-                    
                     <div class="content">
                         <p class="pageTitle">View Image</p>
                         
                         <p>
-                        <c:if test='${ownerName==username}'>
+
                             
                             <!-- Change this
                             <a href="ViewProfile?${ownerName}">View My Profile</a> |
                             <a href="EditImage?${picId}">Edit Image</a> |
                             <a href="RemoveImage?${picId}">Remove Image</a> -->
-                            
-                            <a href="user.php">View My Profile</a> |
-                            <a href="editimage.php">Edit Image</a> |
-                            <a href="deleteimage.php">Remove Image</a>
+                            <?php 
+                            	echo '<a href="user.php">View My Profile</a> | <a href="editimage.php?id='.$photo_id.'&type=photo">Edit Image</a> | <a href="deleteimage.php?id'.$photo_id.'&type=photo">Remove Image</a>';
+                            ?>
                     
-                            </c:if>
                             </p>
                             
                             <hr>
@@ -98,28 +179,34 @@
                             <table>
                                 <tbody>
                                     <tr>
-                                        <th>Owner: </th>
-                                        <td>${ownerName}</td>
+                                    	<?php echo "<th>Owner: </th><td>" .$owner_name. " </td>"; ?>
+                                        <!-- <th>Owner: </th>
+                                        <td>${ownerName}</td> -->
                                     </tr>
                                     <tr>
-                                        <th>Subject: </th>
-                                        <td>${subject}</td>
+	                                    <?php echo "<th>Subject: </th><td>" .$subject. " </td>"; ?>
+                                        <!-- <th>Subject: </th>
+                                        <td>${subject}</td> -->
                                     </tr>
                                     <tr>
-                                        <th>Place: </th>
-                                        <td>${place}</td>
+                                    	<?php echo "<th>Place: </th><td>" .$place. " </td>"; ?>
+                                        <!-- <th>Place: </th>
+                                        <td>${place}</td> -->
                                     </tr>
                                     <tr>
-                                        <th>Date / Time: </th>
-                                        <td>${date}</td>
+                                    	<?php echo "<th>Date: </th><td>" .$newdate. " </td>"; ?>
+                                        <!-- <th>Date / Time: </th>
+                                        <td>${date}</td> -->
                                     </tr>
                                     <tr>
-                                        <th>Description: </th>
-                                        <td>${description}</td>
+                                    	<?php echo "<th>Description: </th><td>" .$description. " </td>"; ?>
+                                        <!-- <th>Description: </th>
+                                        <td>${description}</td> -->
                                     </tr>
                                     <tr>
-                                        <th>Access: </th>
-                                        <td>${access}</td>
+                                    	<?php echo "<th>Access: </th><td>" .$permitted. " </td>"; ?>
+                                        <!-- <th>Access: </th>
+                                        <td>${access}</td> -->
                                     </tr>
                                 </tbody>
                             </table>
@@ -128,7 +215,17 @@
                             <a href="/PhotoWebApp/GetFullImage?${picId}" target="_blank"><img src ="/PhotoWebApp/GetFullImage?${picId}" ></a> -->
                             
                             <!-- Can delete this when the above is changed -->
-                            <a href="test2.jpg" target="_blank"><img src ="test2.jpg" width="600px"></a>
+                            <?php
+                            	echo "User: " .$user. "<br>";
+                            	echo "Photo_id: " .$photo_id. "<br>";
+                            	
+                            	//echo '<img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="600px"/>';
+								echo '<a href="php/getFullImage.php?id='.$photo_id.'&type=photo"><img src ="php/getFullImage.php?id='.$photo_id.'&type=photo" width="600px"/></a>'
+                            	
+                            ?>
+
+                            <!--
+                            <a href="<?php echo 'getFullImage.php?id='.$photo_id.'&type=photo' ?>" target="_blank"><img src ="<?php echo 'getFullImage.php?id='.$photo_id.'&type=photo' ?>">></a> -->
                             
                             </div>
                 </body>
