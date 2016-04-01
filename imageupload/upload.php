@@ -6,10 +6,8 @@ function getres($sql) {
     $conn=connect();
     $stid = oci_parse($conn,$sql);
     $res = oci_execute($stid);
-    while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
-        foreach($row as$item)   {
-            echo '<option>'.$item.'</option>';
-        }
+    while ($row = oci_fetch_row($stid)) {
+    	echo '<option value="'.$row[1].'">'.$row[0].'</option>';
     }
     oci_free_statement($stid);
     oci_close($conn);
@@ -149,7 +147,7 @@ function getres($sql) {
                                         <select name="access">
 
                                             <?php 
-                                            	getres("select distinct group_id from groups",$conn);
+                                            	getres("select distinct group_name, group_id from groups");
                                             	?>
 
                                                 </select>

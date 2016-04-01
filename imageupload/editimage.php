@@ -1,53 +1,53 @@
 <?php
 session_start();
 include("php/PHPconnectionDB.php");
-$conn=connect();
-function getres($sql,$conn) {
+
+function getres($sql) {
+    $conn=connect();
     $stid = oci_parse($conn,$sql);
     $res = oci_execute($stid);
-    while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
-        foreach($row as$item)   {
-            echo '<option>'.$item.'</option>';
-        }
+    while ($row = oci_fetch_row($stid)) {
+    	echo '<option value="'.$row[1].'">'.$row[0].'</option>';
     }
+    oci_free_statement($stid);
+    oci_close($conn);
+    return;
 }
+$conn=connect();
 	      
-		if (!$conn) {
-    		$e = oci_error();
-    		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-	    }
-	    
-		$user=$_SESSION['user'];
-		$photo_id = $_GET['id'];
-			//echo "hello $user";
-			
-	    $sql='select * from images where photo_id=\''.$photo_id.'\'';
-			//echo $sql;
-	    //Prepare sql using conn and returns the statement identifier
-	    $stid = oci_parse($conn, $sql);
-	    
-	    //Execute a statement returned from oci_parse()
-	    $res=oci_execute($stid);
-	    
-	    while ($row=oci_fetch_array($stid,OCI_BOTH)){
-	    	//echo "good";
-	    	$photo_id= $row[0]; 
-	    	$owner_name=$row[1];
-	    	$permitted=$row[2];
-	    	$subject=$row[3];
-	    	$place=$row[4];
-	    	$date=strtotime($row[5]);
-	    	$newdate=date('d-m-Y', $date);
-	    	$description=$row[6];
-	    	$thumbnail=$row[7];
-	    	$photo=$row[8];
-	    }
+if (!$conn) {
+	$e = oci_error();
+	trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
 
-	    	
-	    
-	    //$row=oci_fetch_array($stid,OCI_BOTH)
-	    oci_free_statement($stid);
-	    oci_close($conn);
+$user=$_SESSION['user'];
+$photo_id = $_GET['id'];
+	//echo "hello $user";
+	
+$sql='select * from images where photo_id=\''.$photo_id.'\'';
+	//echo $sql;
+//Prepare sql using conn and returns the statement identifier
+$stid = oci_parse($conn, $sql);
+
+//Execute a statement returned from oci_parse()
+$res=oci_execute($stid);
+
+while ($row=oci_fetch_array($stid,OCI_BOTH)){
+	//echo "good";
+	$photo_id= $row[0]; 
+	$owner_name=$row[1];
+	$permitted=$row[2];
+	$subject=$row[3];
+	$place=$row[4];
+	$date=strtotime($row[5]);
+	$newdate=date('d-m-Y', $date);
+	$description=$row[6];
+	$thumbnail=$row[7];
+	$photo=$row[8];
+}
+
+oci_free_statement($stid);
+oci_close($conn);
 
 ?>
 <!DOCTYPE html>
@@ -188,9 +188,9 @@ function getres($sql,$conn) {
                                                 <!-- Change this -->
                                                 <?php 
                                                     $conn = connect();
-                                            	    getres("select distinct group_id from groups",$conn);
+                                            	    getres("select distinct group_name, group_id from groups");
                                             	?>
-                                                                </select>
+                                            </select>
                                         </td>
                                     </tr>
                                     <tr>
